@@ -5,8 +5,8 @@ const ProductManager = require('./productManager.js');
 const productManager = new ProductManager();
 
 function generateRandomCode() {
-    const min = 100; // Mínimo valor de tres dígitos
-    const max = 999; // Máximo valor de tres dígitos
+    const min = 100; 
+    const max = 999; 
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
