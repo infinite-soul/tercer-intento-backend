@@ -1,6 +1,34 @@
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export const productsFilePath = path.join(__dirname, 'memory', 'products.json');
+
 class ProductManager {
-    constructor() {
+    constructor(path) {
+        this.path = path;
         this.products = [];
+        this.loadProducts();
+    }
+
+    loadProducts() {
+        try {
+            const data = fs.readFileSync(this.path, 'utf-8');
+            this.products = JSON.parse(data);
+        } catch (err) {
+            console.error('Error al leer el archivo de productos:', err);
+        }
+    }
+
+    saveProducts() {
+        try {
+            const data = JSON.stringify(this.products, null, 2);
+            fs.writeFileSync(this.path, data);
+        } catch (err) {
+            console.error('Error al escribir el archivo de productos:', err);
+        }
     }
 
     addProduct(productData) {
@@ -17,6 +45,7 @@ class ProductManager {
         const id = this.products.length + 1;
         const product = { id, ...productData };
         this.products.push(product);
+        this.saveProducts();
         console.log('Producto agregado con éxito.');
     }
 
@@ -31,6 +60,29 @@ class ProductManager {
         }
         return product;
     }
+
+    updateProduct(idProduct, updatedData) {
+        const index = this.products.findIndex(product => product.id === idProduct);
+        if (index === -1) {
+            console.log("Producto no encontrado");
+            return;
+        }
+        const updatedProduct = { ...this.products[index], ...updatedData };
+        this.products[index] = updatedProduct;
+        this.saveProducts();
+        console.log('Producto actualizado con éxito.');
+    }
+
+    deleteProduct(idProduct) {
+        const index = this.products.findIndex(product => product.id === idProduct);
+        if (index === -1) {
+            console.log("Producto no encontrado");
+            return;
+        }
+        this.products.splice(index, 1);
+        this.saveProducts();
+        console.log('Producto eliminado con éxito.');
+    }
 }
 
-module.exports = ProductManager;
+export default ProductManager;
