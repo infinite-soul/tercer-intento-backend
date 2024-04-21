@@ -17,3 +17,9 @@ Este es mi proyecto de github para Backend con C0derH0use, en mi tercera cursada
 - Tiene node_modules, así que se instalarán las dependencias al instalar node
 - Se prueba enviando el comando npm run test, se pueden revisar las diferentes pruebas al tiempo, o comentar cada parte que se quiera probar
 
+## 3. Tercer desafío y primera preentrega
+
+- Se corre con el comando npm run dev (con nodemon)
+- Funciona con postman en el pueto 8080
+- En la ruta base lleva /api, por ejemplo: http://localhost:8080/api/carts/1/product/3
+- Incluye las entregas del tercer desafío y de la primera preentrega, ya que las diferencias eran pocas y preferí entregar ambas
