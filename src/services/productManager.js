@@ -47,7 +47,10 @@ class ProductManager {
         console.log('Producto agregado con éxito.');
     }
 
-    getProducts() {
+    getProducts(limit) {
+        if (limit) {
+            return this.products.slice(0, limit);
+        }
         return this.products;
     }
 

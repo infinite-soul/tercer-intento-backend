@@ -9,7 +9,7 @@
     "thumbnail": "https://www.themealdb.com/images/media/meals/ursuup1487348423.jpg"
   },
   {
-    "id": 3,
+    "id": 2,
     "code": "Gn3kXwAp45",
     "stock": 10,
     "title": "Cerdo a la BBQ",
@@ -18,7 +18,7 @@
     "thumbnail": "https://www.themealdb.com/images/media/meals/qqwypw1504642429.jpg"
   },
   {
-    "id": 4,
+    "id": 3,
     "code": "Nd4Ox3pXme",
     "stock": 8,
     "title": "Salmón Teriyaki",
@@ -27,7 +27,7 @@
     "thumbnail": "https://www.themealdb.com/images/media/meals/xxyupu1468262513.jpg"
   },
   {
-    "id": 5,
+    "id": 4,
     "code": "BmO5x3W4kg",
     "stock": 12,
     "title": "Ensalada César",
@@ -36,7 +36,7 @@
     "thumbnail": "https://www.themealdb.com/images/media/meals/urtwux1486983078.jpg"
   },
   {
-    "id": 6,
+    "id": 5,
     "code": "lq3Ox6pe2V",
     "stock": 6,
     "title": "Tacos de Pollo",
@@ -45,7 +45,7 @@
     "thumbnail": "https://www.themealdb.com/images/media/meals/ypxvwv1505333929.jpg"
   },
   {
-    "id": 7,
+    "id": 6,
     "code": "Rd3Ox2pe7K",
     "stock": 9,
     "title": "Pizza Margherita",
@@ -54,7 +54,7 @@
     "thumbnail": "https://www.themealdb.com/images/media/meals/x0lk931587671540.jpg"
   },
   {
-    "id": 8,
+    "id": 7,
     "code": "Mn6Xw1Go3K",
     "stock": 7,
     "title": "Lasagna de Carne",
@@ -63,7 +63,7 @@
     "thumbnail": "https://www.themealdb.com/images/media/meals/wtsvxx1511296896.jpg"
   },
   {
-    "id": 9,
+    "id": 8,
     "code": "Ap4lXm7w3N",
     "stock": 4,
     "title": "Pasta Alfredo",
@@ -72,7 +72,7 @@
     "thumbnail": "https://www.themealdb.com/images/media/meals/uquqtu1511178042.jpg"
   },
   {
-    "id": 10,
+    "id": 9,
     "code": "2j5p9CxoRd",
     "stock": 8,
     "title": "Pollo al Curry",
@@ -81,7 +81,7 @@
     "thumbnail": "https://www.themealdb.com/images/media/meals/wruvqv1511880994.jpg"
   },
   {
-    "id": 11,
+    "id": 10,
     "title": "Producto 1",
     "description": "Descripción del producto 1",
     "price": 100,
@@ -90,7 +90,7 @@
     "code": 994
   },
   {
-    "id": 12,
+    "id": 11,
     "title": "Producto 2",
     "description": "Descripción del producto 2",
     "price": 200,
