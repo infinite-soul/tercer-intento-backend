@@ -75,4 +75,8 @@ router.post('/carts/:cid/product/:pid', (req, res) => {
     res.json(updatedCart);
 });
 
+router.get('/realtimeproducts', (req, res) => {
+    res.render('realTimeProducts');
+});
+
 export default router;
