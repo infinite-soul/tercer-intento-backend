@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "code": "mdEsX4mw3N",
+    "stock": 10,
+    "title": "Producto 1 Actualizado",
+    "description": "8 slices Beef\n12 florets Broccoli\n1 Packet Potatoes\n1 Packet Carrots\n140g plain flour\n4 Eggs\n200ml milk\ndrizzle (for cooking) sunflower oil",
+    "price": 150,
+    "thumbnail": "https://www.themealdb.com/images/media/meals/ursuup1487348423.jpg"
+  },
+  {
+    "id": 2,
+    "code": "Gn3kXwAp45",
+    "stock": 10,
+    "title": "Cerdo a la BBQ",
+    "description": "2 pounds pork shoulder roast\n1 cup BBQ sauce\n1/4 cup brown sugar\n1/4 cup apple cider vinegar\n1 tablespoon Worcestershire sauce\n1 tablespoon soy sauce\n1 teaspoon smoked paprika\n1 teaspoon garlic powder\n1/2 teaspoon black pepper\n1/2 teaspoon salt",
+    "price": 1500,
+    "thumbnail": "https://www.themealdb.com/images/media/meals/qqwypw1504642429.jpg"
+  },
+  {
+    "id": 3,
+    "code": "Nd4Ox3pXme",
+    "stock": 8,
+    "title": "Salmón Teriyaki",
+    "description": "4 salmon fillets\n1/4 cup soy sauce\n1/4 cup water\n2 tablespoons brown sugar\n2 tablespoons honey\n1 tablespoon rice vinegar\n1 tablespoon minced garlic\n1 tablespoon grated ginger\n1 teaspoon cornstarch",
+    "price": 2500,
+    "thumbnail": "https://www.themealdb.com/images/media/meals/xxyupu1468262513.jpg"
+  },
+  {
+    "id": 4,
+    "code": "BmO5x3W4kg",
+    "stock": 12,
+    "title": "Ensalada César",
+    "description": "1 head romaine lettuce\n1/2 cup Caesar dressing\n1/4 cup grated Parmesan cheese\n1/2 cup croutons\n2 tablespoons lemon juice\n2 tablespoons olive oil\n1 clove garlic, minced\n1/4 teaspoon Dijon mustard\nSalt and pepper to taste",
+    "price": 1200,
+    "thumbnail": "https://www.themealdb.com/images/media/meals/urtwux1486983078.jpg"
+  },
+  {
+    "id": 5,
+    "code": "lq3Ox6pe2V",
+    "stock": 6,
+    "title": "Tacos de Pollo",
+    "description": "2 cups shredded cooked chicken\n1/4 cup chopped onion\n1/4 cup chopped cilantro\n1/4 cup salsa\n1/4 cup sour cream\n8 small corn tortillas\n1 lime, cut into wedges\nSalt and pepper to taste",
+    "price": 1400,
+    "thumbnail": "https://www.themealdb.com/images/media/meals/ypxvwv1505333929.jpg"
+  },
+  {
+    "id": 6,
+    "code": "Rd3Ox2pe7K",
+    "stock": 9,
+    "title": "Pizza Margherita",
+    "description": "1 pizza dough\n1/2 cup pizza sauce\n2 cups shredded mozzarella cheese\n8-10 fresh basil leaves\n2 tablespoons olive oil\n2 cloves garlic, minced\nSalt and pepper to taste",
+    "price": 1800,
+    "thumbnail": "https://www.themealdb.com/images/media/meals/x0lk931587671540.jpg"
+  },
+  {
+    "id": 7,
+    "code": "Mn6Xw1Go3K",
+    "stock": 7,
+    "title": "Lasagna de Carne",
+    "description": "12 lasagna noodles\n1 pound ground beef\n1 cup diced onion\n1 cup diced bell pepper\n2 cloves garlic, minced\n1 can (14 oz) crushed tomatoes\n1 can (6 oz) tomato paste\n1/4 cup chopped fresh basil\n1/4 cup chopped fresh parsley\n2 cups shredded mozzarella cheese\n1 cup grated Parmesan cheese\nSalt and pepper to taste",
+    "price": 2200,
+    "thumbnail": "https://www.themealdb.com/images/media/meals/wtsvxx1511296896.jpg"
+  },
+  {
+    "id": 8,
+    "code": "Ap4lXm7w3N",
+    "stock": 4,
+    "title": "Pasta Alfredo",
+    "description": "8 oz fettuccine pasta\n1/2 cup unsalted butter\n1 cup heavy cream\n1 cup grated Parmesan cheese\n2 cloves garlic, minced\n1/4 teaspoon ground nutmeg\nSalt and pepper to taste",
+    "price": 1600,
+    "thumbnail": "https://www.themealdb.com/images/media/meals/uquqtu1511178042.jpg"
+  },
+  {
+    "id": 9,
+    "code": "2j5p9CxoRd",
+    "stock": 8,
+    "title": "Pollo al Curry",
+    "description": "2 chicken breasts\n2 tablespoons curry powder\n1 onion, chopped\n2 cloves garlic, minced\n1 can (14 oz) coconut milk\n1 tablespoon vegetable oil\nSalt and pepper to taste\nCooked rice for serving",
+    "price": 1800,
+    "thumbnail": "https://www.themealdb.com/images/media/meals/wruvqv1511880994.jpg"
+  },
+  {
+    "id": 10,
+    "title": "Producto 1",
+    "description": "Descripción del producto 1",
+    "price": 100,
+    "thumbnail": "https://rickandmortyapi.com/api/character/avatar/8.jpeg",
+    "stock": 4,
+    "code": 994
+  },
+  {
+    "id": 11,
+    "title": "Producto 2",
+    "description": "Descripción del producto 2",
+    "price": 200,
+    "thumbnail": "https://rickandmortyapi.com/api/character/avatar/14.jpeg",
+    "stock": 7,
+    "code": 170
+  },
+  {
+    "id": 12,
+    "title": "Producto 1",
+    "description": "Descripción del producto 1",
+    "price": 100,
+    "thumbnail": "https://rickandmortyapi.com/api/character/avatar/8.jpeg",
+    "stock": 4,
+    "code": 393
+  },
+  {
+    "id": 13,
+    "title": "Producto 2",
+    "description": "Descripción del producto 2",
+    "price": 200,
+    "thumbnail": "https://rickandmortyapi.com/api/character/avatar/14.jpeg",
+    "stock": 7,
+    "code": 219
+  },
+  {
+    "id": 14,
+    "title": "Producto 1",
+    "description": "Descripción del producto 1",
+    "price": 100,
+    "thumbnail": "https://rickandmortyapi.com/api/character/avatar/8.jpeg",
+    "stock": 4,
+    "code": 511
+  },
+  {
+    "id": 15,
+    "title": "Producto 2",
+    "description": "Descripción del producto 2",
+    "price": 200,
+    "thumbnail": "https://rickandmortyapi.com/api/character/avatar/14.jpeg",
+    "stock": 7,
+    "code": 563
+  }
+]

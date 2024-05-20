@@ -31,3 +31,12 @@ Este es mi proyecto de github para Backend con C0derH0use, en mi tercera cursada
 - En la ruta base lleva /api, por ejemplo: http://localhost:8080/api/carts/1/product/3
 - Incluye las entregas del tercer desafío y de la primera preentrega, ya que las diferencias eran pocas y preferí entregar ambas
 - Incluye handlebars con una plantilla horrible de fea, nunca me gustó handlebars pero intentaré mejorarlo. Funciona en la ruta http://localhost:8080/api/realtimeproducts
+
+## 5. Practica integradora
+
+- Se corre con el comando npm run dev (con nodemon)
+- Funciona con postman en el pueto 8080
+- En la ruta base lleva /api, por ejemplo: http://localhost:8080/api/carts/1/product/3
+- Incluye la integración con Mongo DB y el chat en http://localhost:8080/api/chat
+- Continua con la plantilla horrible de fea. Funciona en la ruta http://localhost:8080/api/realtimeproducts
+- El schema de los productos y carts está medio feo, los simplifiqué para que fuera más manejable, durante la semana mejoraré la estructura de datos pero requería hacer la entrega
