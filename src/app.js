@@ -94,6 +94,11 @@ io.on('connection', async (socket) => {
     });
 });
 
+
+
+
+
+
 mongoose.connect(DB_URL)
     .then(() => console.log('Conexión establecida con MongoDB'))
     .catch(err => console.error('Error al conectar con MongoDB:', err));

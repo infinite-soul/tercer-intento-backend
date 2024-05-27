@@ -1,0 +1,33 @@
+<h1>Lista de Productos</h1>
+
+<div>
+  {{#if hasPrevPage}}
+    <a href="{{prevLink}}">Página Anterior</a>
+  {{/if}}
+  Página {{page}} de {{totalPages}}
+  {{#if hasNextPage}}
+    <a href="{{nextLink}}">Página Siguiente</a>
+  {{/if}}
+</div>
+
+<ul>
+  {{#each payload}}
+    <li>
+      <h3>{{this.title}}</h3>
+      <p>Precio: ${{this.price}}</p>
+      <p>Categoría: {{this.category}}</p>
+      <a href="/products/{{this._id}}">Ver detalles</a>
+      <button data-product-id="{{this._id}}">Agregar al carrito</button>
+    </li>
+  {{/each}}
+</ul>
+
+<script>
+  const addToCartButtons = document.querySelectorAll('button[data-product-id]');
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId;
+      // Lógica para agregar el producto al carrito
+    });
+  });
+</script>

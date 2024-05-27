@@ -46,7 +46,7 @@ class CartManager {
             throw err;
         }
     }
-
+    
     async addProductToCart(cartId, productId, quantity = 1) {
         try {
             const cartObjectId = new mongoose.Types.ObjectId(cartId); // Convertir el ID del carrito a ObjectId
@@ -56,19 +56,19 @@ class CartManager {
             if (!cart) {
                 return null;
             }
-
+    
             const product = await ProductModel.findById(productObjectId);
             if (!product) {
                 return null;
             }
-
+    
             const existingProduct = cart.products.find((p) => p.product.toString() === productId);
             if (existingProduct) {
                 existingProduct.quantity += quantity;
             } else {
                 cart.products.push({ product: productObjectId, quantity });
             }
-
+    
             await cart.save();
             return cart;
         } catch (err) {
@@ -76,6 +76,7 @@ class CartManager {
             throw err;
         }
     }
+
 
     async deleteProductFromCart(cartId, productId) {
         try {

@@ -6,16 +6,16 @@ class ProductManager {
     async getProducts(limit, skip, sort, query) {
         try {
             let products;
-
+    
             const sortOption = sort ? { price: sort === 'asc' ? 1 : -1 } : {};
             const queryOption = query ? { category: query } : {}; // Ejemplo de filtro por categoría
-
+    
             if (limit && skip) {
                 products = await ProductModel.find(queryOption).sort(sortOption).skip(skip).limit(limit);
             } else {
                 products = await ProductModel.find(queryOption).sort(sortOption);
             }
-
+    
             return products;
         } catch (err) {
             console.error('Error al obtener los productos:', err);
