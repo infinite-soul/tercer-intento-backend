@@ -1,0 +1,35 @@
+<!-- productsPagination.handlebars -->
+<h1>Lista de productos</h1>
+
+<div>
+  {{#if hasPrevPage}}
+    <a href="{{prevLink}}">Página anterior</a>
+  {{/if}}
+
+  <span>Página {{page}} de {{totalPages}}</span>
+
+  {{#if hasNextPage}}
+    <a href="{{nextLink}}">Siguiente página</a>
+  {{/if}}
+</div>
+
+<ul>
+  {{#each payload}}
+    <li>
+      <h3>{{title}}</h3>
+      <p>Precio: ${{price}}</p>
+      <p>Descripción: {{description}}</p>
+      <button data-product-id="{{_id}}">Agregar al carrito</button>
+    </li>
+  {{/each}}
+</ul>
+
+<script>
+  const addToCartButtons = document.querySelectorAll('button');
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const productId = button.dataset.productId;
+      // Enviar una solicitud a la ruta /api/carts/:cid/products/:pid para agregar el producto al carrito
+    });
+  });
+</script>

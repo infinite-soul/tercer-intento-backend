@@ -10,7 +10,7 @@
 
 <h2>Eliminar producto</h2>
 <form id="eliminar-producto-form">
-  <input type="number" placeholder="ID" id="id-producto" />
+  <input type="text" placeholder="ID" id="id-producto" />
   <button type="submit">Eliminar</button>
 </form>
 
@@ -26,22 +26,16 @@
     productosLista.innerHTML = '';
     productos.forEach(producto => {
       const li = document.createElement('li');
-      li.textContent = `${producto.title} - ${producto.price}`;
+      li.textContent = `- ${producto.title} 
+      - ${producto.price} 
+      - ID: ${producto._id}`;
       productosLista.appendChild(li);
     });
   }
 
-  // Obtener la lista inicial de productos
-  fetch('/api/products')
-    .then(response => response.json())
-    .then(productos => actualizarLista(productos));
-
-  // Escuchar eventos de socket.io
-  socket.on('actualizarLista', (data) => {
-    // Lógica para actualizar la lista de productos
-    fetch('/api/products')
-      .then(response => response.json())
-      .then(productos => actualizarLista(productos));
+  // Escuchar el evento 'actualizarLista' desde el servidor
+  socket.on('actualizarLista', (productos) => {
+    actualizarLista(productos);
   });
 
   // Enviar nuevo producto a través de websocket

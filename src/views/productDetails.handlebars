@@ -1,0 +1,19 @@
+<!-- productDetails.handlebars -->
+<h1>Detalles del producto</h1>
+
+<div>
+  <h2>{{product.title}}</h2>
+  <p>Precio: ${{product.price}}</p>
+  <p>Descripción: {{product.description}}</p>
+  <p>Stock: {{product.stock}}</p>
+  <p>Código: {{product.code}}</p>
+  <button data-product-id="{{product._id}}">Agregar al carrito</button>
+</div>
+
+<script>
+  const addToCartButton = document.querySelector('button');
+  addToCartButton.addEventListener('click', () => {
+    const productId = addToCartButton.dataset.productId;
+    // Enviar una solicitud a la ruta /api/carts/:cid/products/:pid para agregar el producto al carrito
+  });
+</script>

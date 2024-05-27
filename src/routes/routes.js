@@ -10,9 +10,8 @@ const messageManager = new MessageManager();
 
 // Rutas para productos
 router.get('/products', async (req, res) => {
-    const { limit } = req.query;
     try {
-        const products = await productManager.getProducts(limit);
+        const products = await productManager.getProducts();
         res.json(products);
     } catch (err) {
         res.status(500).json({ error: 'Error al obtener los productos' });
@@ -97,22 +96,20 @@ router.get('/carts/:cid', async (req, res) => {
 
 
 
-router.post('/carts/:cid/product/:pid', async (req, res) => {
+router.put('/carts/:cid/products/:pid', async (req, res) => {
     const cartId = req.params.cid;
-    const productId = req.params.pid; 
+    const productId = req.params.pid;
+    const { quantity } = req.body;
+
     try {
-        const product = await productManager.getProductById(productId);
-        if (!product) {
-            return res.status(404).json({ error: 'Producto no encontrado' });
-        }
-        const updatedCart = await cartManager.addProductToCart(cartId, product);
+        const updatedCart = await cartManager.updateProductQuantity(cartId, productId, quantity);
         if (!updatedCart) {
-            return res.status(404).json({ error: 'Carrito no encontrado' });
+            return res.status(404).json({ error: 'Carrito o producto no encontrado' });
         }
         res.json(updatedCart);
     } catch (err) {
-        console.error('Error al agregar el producto al carrito:', err);
-        res.status(500).json({ error: 'Error al agregar el producto al carrito' });
+        console.error('Error al actualizar la cantidad del producto en el carrito:', err);
+        res.status(500).json({ error: 'Error al actualizar la cantidad del producto en el carrito' });
     }
 });
 
@@ -145,6 +142,24 @@ router.delete('/carts/:cid', async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar el carrito' });
     }
 });
+
+
+router.delete('/carts/:cid/products/:pid', async (req, res) => {
+    const cartId = req.params.cid;
+    const productId = req.params.pid;
+
+    try {
+        const updatedCart = await cartManager.deleteProductFromCart(cartId, productId);
+        if (!updatedCart) {
+            return res.status(404).json({ error: 'Carrito o producto no encontrado' });
+        }
+        res.json(updatedCart);
+    } catch (err) {
+        console.error('Error al eliminar el producto del carrito:', err);
+        res.status(500).json({ error: 'Error al eliminar el producto del carrito' });
+    }
+});
+
 
 
 
