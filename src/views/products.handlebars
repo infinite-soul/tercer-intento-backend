@@ -1,4 +1,4 @@
-<h1>Lista de Productos</h1>
+<h2>Lista de Productos</h2>
 
 <div>
   {{#if hasPrevPage}}
@@ -15,19 +15,15 @@
     <li>
       <h3>{{this.title}}</h3>
       <p>Precio: ${{this.price}}</p>
-      <p>Categoría: {{this.category}}</p>
-      <a href="/products/{{this._id}}">Ver detalles</a>
-      <button data-product-id="{{this._id}}">Agregar al carrito</button>
+      <form action="/add-to-cart" method="post">
+        <input type="hidden" name="productId" value="{{this._id}}">
+        <select name="cartId">
+          {{#each ../cartIds}}
+            <option value="{{this}}">{{this}}</option>
+          {{/each}}
+        </select>
+        <button type="submit">Agregar al carrito</button>
+      </form>
     </li>
   {{/each}}
 </ul>
-
-<script>
-  const addToCartButtons = document.querySelectorAll('button[data-product-id]');
-  addToCartButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const productId = button.dataset.productId;
-      // Lógica para agregar el producto al carrito
-    });
-  });
-</script>

@@ -1,22 +1,45 @@
 import { ProductModel } from '../dao/MongoDB/products.model.js';
 import mongoose from 'mongoose';
-
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 class ProductManager {
-    async getProducts(limit, skip, sort, query) {
+    async getProducts(limit = 10, page = 1, sort, query, category) {
         try {
-            let products;
+            const options = {
+                limit: parseInt(limit),
+                page: parseInt(page),
+                sort: sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : undefined,
+            };
     
-            const sortOption = sort ? { price: sort === 'asc' ? 1 : -1 } : {};
-            const queryOption = query ? { category: query } : {}; // Ejemplo de filtro por categoría
-    
-            if (limit && skip) {
-                products = await ProductModel.find(queryOption).sort(sortOption).skip(skip).limit(limit);
-            } else {
-                products = await ProductModel.find(queryOption).sort(sortOption);
+            const filter = {};
+            if (query) {
+                filter.$or = [
+                    { title: { $regex: new RegExp(query, 'i') } }, // busca productos cuyo nombre contenga 'query' (ignorando mayúsculas y minúsculas)
+                    { category: query },
+                    { available: query === 'true' },
+                ];
             }
     
-            return products;
+            if (category) {
+                filter.category = category;
+            }
+    
+            const result = await ProductModel.paginate(filter, options);
+    
+            const response = {
+                status: 'success',
+                payload: result.docs,
+                totalPages: result.totalPages,
+                prevPage: result.hasPrevPage ? result.prevPage : null,
+                nextPage: result.hasNextPage ? result.nextPage : null,
+                page: result.page,
+                hasPrevPage: result.hasPrevPage,
+                hasNextPage: result.hasNextPage,
+                prevLink: result.hasPrevPage ? `/api/productos?page=${result.prevPage}&limit=${limit}` : null,
+                nextLink: result.hasNextPage ? `/api/productos?page=${result.nextPage}&limit=${limit}` : null,
+            };
+    
+            return response;
         } catch (err) {
             console.error('Error al obtener los productos:', err);
             throw err;

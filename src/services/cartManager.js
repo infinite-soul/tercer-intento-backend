@@ -14,9 +14,19 @@ class CartManager {
         }
     }
 
+    async getCarts() {
+        try {
+            const carts = await CartModel.find();
+            return carts;
+        } catch (err) {
+            console.error('Error al obtener los carritos:', err);
+            throw err;
+        }
+    }
+
     async getCartById(cartId) {
         try {
-            const objectId = new mongoose.Types.ObjectId(cartId); // Convertir el ID del carrito a ObjectId
+            const objectId = new mongoose.Types.ObjectId(cartId);
             const cart = await CartModel.findById(objectId).populate('products.product');
             return cart;
         } catch (err) {
@@ -25,32 +35,10 @@ class CartManager {
         }
     }
 
-    async updateCart(cartId, updatedCartData) {
-        try {
-            const objectId = new mongoose.Types.ObjectId(cartId); // Convertir el ID del carrito a ObjectId
-            const cart = await CartModel.findById(objectId);
-            if (!cart) {
-                return null;
-            }
-    
-            // Actualizar campos específicos del carrito
-            if (updatedCartData.products) {
-                cart.products = updatedCartData.products;
-            }
-            // Agregar más campos según sea necesario
-    
-            const updatedCart = await cart.save();
-            return updatedCart;
-        } catch (err) {
-            console.error('Error al actualizar el carrito:', err);
-            throw err;
-        }
-    }
-    
     async addProductToCart(cartId, productId, quantity = 1) {
         try {
-            const cartObjectId = new mongoose.Types.ObjectId(cartId); // Convertir el ID del carrito a ObjectId
-            const productObjectId = new mongoose.Types.ObjectId(productId); // Convertir el ID del producto a ObjectId
+            const cartObjectId = new mongoose.Types.ObjectId(cartId);
+            const productObjectId = new mongoose.Types.ObjectId(productId);
             
             const cart = await CartModel.findById(cartObjectId);
             if (!cart) {
@@ -77,7 +65,6 @@ class CartManager {
         }
     }
 
-
     async deleteProductFromCart(cartId, productId) {
         try {
             const cartObjectId = new mongoose.Types.ObjectId(cartId);
@@ -93,6 +80,27 @@ class CartManager {
             return cart;
         } catch (err) {
             console.error('Error al eliminar el producto del carrito:', err);
+            throw err;
+        }
+    }
+
+    async updateCart(cartId, updatedProducts) {
+        try {
+            const objectId = new mongoose.Types.ObjectId(cartId);
+            const cart = await CartModel.findById(objectId);
+            if (!cart) {
+                return null;
+            }
+
+            cart.products = updatedProducts.map((p) => ({
+                product: new mongoose.Types.ObjectId(p.product),
+                quantity: p.quantity,
+            }));
+
+            const updatedCart = await cart.save();
+            return updatedCart;
+        } catch (err) {
+            console.error('Error al actualizar el carrito:', err);
             throw err;
         }
     }
@@ -121,7 +129,7 @@ class CartManager {
         }
     }
 
-    async updateCart(cartId, updatedProducts) {
+    async deleteCart(cartId) {
         try {
             const objectId = new mongoose.Types.ObjectId(cartId);
             const cart = await CartModel.findById(objectId);
@@ -129,26 +137,11 @@ class CartManager {
                 return null;
             }
 
-            cart.products = updatedProducts.map((p) => ({
-                product: new mongoose.Types.ObjectId(p.product),
-                quantity: p.quantity,
-            }));
-
+            cart.products = [];
             const updatedCart = await cart.save();
             return updatedCart;
         } catch (err) {
-            console.error('Error al actualizar el carrito:', err);
-            throw err;
-        }
-    }
-
-    async deleteCart(cartId) {
-        try {
-            const objectId = new mongoose.Types.ObjectId(cartId); // Convertir el ID del carrito a ObjectId
-            const deletedCart = await CartModel.findByIdAndDelete(objectId);
-            return deletedCart;
-        } catch (err) {
-            console.error('Error al eliminar el carrito:', err);
+            console.error('Error al vaciar el carrito:', err);
             throw err;
         }
     }

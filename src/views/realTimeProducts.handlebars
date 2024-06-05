@@ -1,6 +1,11 @@
 <h1>Lista de productos en tiempo real</h1>
 <ul id="productos-lista"></ul>
 
+<div id="pagination-controls">
+    <button id="previous-page">Página anterior</button>
+    <button id="next-page">Página siguiente</button>
+</div>
+
 <h2>Agregar nuevo producto</h2>
 <form id="nuevo-producto-form">
   <input type="text" placeholder="Título" id="titulo" />
@@ -18,13 +23,22 @@
 <script>
   const socket = io();
   const productosLista = document.getElementById('productos-lista');
+
+  // Enviar nuevo producto a través de websocket
   const nuevoProductoForm = document.getElementById('nuevo-producto-form');
-  const eliminarProductoForm = document.getElementById('eliminar-producto-form');
+  nuevoProductoForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const titulo = document.getElementById('titulo').value;
+    const precio = document.getElementById('precio').value;
+    const producto = { title: titulo, price: precio };
+    socket.emit('nuevoProducto', producto);
+    nuevoProductoForm.reset();
+  });
 
   // Actualizar la lista de productos
   function actualizarLista(productos) {
     productosLista.innerHTML = '';
-    productos.forEach(producto => {
+    productos.payload.forEach(producto => {
       const li = document.createElement('li');
       li.textContent = `- ${producto.title} 
       - ${producto.price} 
@@ -38,21 +52,21 @@
     actualizarLista(productos);
   });
 
-  // Enviar nuevo producto a través de websocket
-  nuevoProductoForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const titulo = document.getElementById('titulo').value;
-    const precio = document.getElementById('precio').value;
-    const producto = { title: titulo, price: precio };
-    socket.emit('nuevoProducto', producto);
-    nuevoProductoForm.reset();
-  });
-
   // Enviar eliminación de producto a través de websocket
+  const eliminarProductoForm = document.getElementById('eliminar-producto-form');
   eliminarProductoForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const id = document.getElementById('id-producto').value;
     socket.emit('eliminarProducto', id);
     eliminarProductoForm.reset();
+  });
+
+  // Paginación
+  document.getElementById('previous-page').addEventListener('click', function() {
+    socket.emit('cambiarPagina', -1);
+  });
+
+  document.getElementById('next-page').addEventListener('click', function() {
+    socket.emit('cambiarPagina', 1);
   });
 </script>

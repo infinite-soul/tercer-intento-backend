@@ -1,35 +1,56 @@
-<!-- productsPagination.handlebars -->
-<h1>Lista de productos</h1>
+<h1>Carritos</h1>
+
+<ul>
+  {{#each carts}}
+    <li>
+      <h2>Carrito ID: {{this._id}}</h2>
+      <!-- Aquí puedes agregar más detalles sobre cada carrito -->
+    </li>
+  {{/each}}
+</ul>
+<h2>Lista de Productos</h2>
 
 <div>
   {{#if hasPrevPage}}
-    <a href="{{prevLink}}">Página anterior</a>
+    <a href="{{prevLink}}">Página Anterior</a>
   {{/if}}
-
-  <span>Página {{page}} de {{totalPages}}</span>
-
+  Página {{page}} de {{totalPages}}
   {{#if hasNextPage}}
-    <a href="{{nextLink}}">Siguiente página</a>
+    <a href="{{nextLink}}">Página Siguiente</a>
   {{/if}}
 </div>
 
 <ul>
   {{#each payload}}
     <li>
-      <h3>{{title}}</h3>
-      <p>Precio: ${{price}}</p>
-      <p>Descripción: {{description}}</p>
-      <button data-product-id="{{_id}}">Agregar al carrito</button>
+      <h3>{{this.title}}</h3>
+      <p>Precio: ${{this.price}}</p>
+      <form action="/add-to-cart" method="post">
+        <input type="hidden" name="productId" value="{{this._id}}">
+        <select class="cartSelect" name="cartId">
+          <!-- Los carritos se llenarán aquí con AJAX -->
+        </select>
+        <button type="submit">Agregar al carrito</button>
+      </form>
     </li>
   {{/each}}
 </ul>
 
 <script>
-  const addToCartButtons = document.querySelectorAll('button');
-  addToCartButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const productId = button.dataset.productId;
-      // Enviar una solicitud a la ruta /api/carts/:cid/products/:pid para agregar el producto al carrito
-    });
-  });
+window.onload = function() {
+  fetch('/api/carts')
+    .then(response => response.json())
+    .then(carts => {
+      const selects = document.querySelectorAll('.cartSelect');
+      selects.forEach(select => {
+        carts.forEach(cart => {
+          const option = document.createElement('option');
+          option.value = cart._id;
+          option.text = cart._id;
+          select.appendChild(option);
+        });
+      });
+    })
+    .catch(error => console.error('Error:', error));
+};
 </script>
