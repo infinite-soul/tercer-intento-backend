@@ -39,18 +39,28 @@ class CartManager {
         try {
             const cartObjectId = new mongoose.Types.ObjectId(cartId);
             const productObjectId = new mongoose.Types.ObjectId(productId);
-            
+    
+            // Buscar el carrito por su ID
             const cart = await CartModel.findById(cartObjectId);
             if (!cart) {
                 return null;
             }
     
+            // Buscar el producto por su ID
             const product = await ProductModel.findById(productObjectId);
             if (!product) {
                 return null;
             }
     
+            // Verificar si la cantidad solicitada excede el stock disponible
             const existingProduct = cart.products.find((p) => p.product.toString() === productId);
+            const totalQuantity = existingProduct ? existingProduct.quantity + quantity : quantity;
+    
+            if (totalQuantity > product.stock) {
+                throw new Error('Cantidad solicitada excede el stock disponible.');
+            }
+    
+            // Agregar o actualizar el producto en el carrito
             if (existingProduct) {
                 existingProduct.quantity += quantity;
             } else {
@@ -64,6 +74,7 @@ class CartManager {
             throw err;
         }
     }
+    
 
     async deleteProductFromCart(cartId, productId) {
         try {
