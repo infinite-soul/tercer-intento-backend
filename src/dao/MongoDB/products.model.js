@@ -5,12 +5,25 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 const productSchema = new mongoose.Schema({
     title: {
         type: String,
-        index: true
+        index: true,
+        required: true
     },
-    description: String,
-    price: Number,
-    thumbnail: Array,
-    stock: Number,
+    description: { 
+        type: String,
+        required: true
+    },
+    price: { 
+        type: Number,
+        required: true
+    },
+    thumbnail: {
+        type: [String],
+        required: true
+    },
+    stock: { 
+        type: Number,
+        required: true
+    },
     code: String,
     category: {  
         type: String,
