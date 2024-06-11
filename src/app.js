@@ -10,6 +10,8 @@ import ProductManager from './services/productManager.js';
 import MessageManager from './services/messageManager.js';
 import Handlebars from 'handlebars';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
+import session from 'express-session';
+import { isAuthenticated, isAdmin } from './middlewares/auth.middleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +24,13 @@ const DB_URL = 'mongodb+srv://lordchingzo:coderhouse@product.n09ozpk.mongodb.net
 const app = express();
 const PORT = 8080;
 
+app.use(session({
+    secret: 'your-secure-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Cambia a true si usas HTTPS
+}));
+
 app.engine('handlebars', engine({
     handlebars: allowInsecurePrototypeAccess(Handlebars)
 }));
@@ -29,7 +38,16 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/api', router);
+
+app.use('/productos', isAuthenticated);
+app.use('/admin', isAuthenticated, isAdmin);
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
 
 app.get('/api/realtimeproducts', async (req, res) => {
     try {
@@ -49,7 +67,7 @@ const server = app.listen(PORT, () => console.log(`Server running on port ${PORT
 const io = new Server(server);
 
 let currentPage = 1;
-const productsPerPage = 10; // Define cuántos productos quieres mostrar por página
+const productsPerPage = 10;
 
 io.on('connection', async (socket) => {
     console.log('Usuario conectado');
@@ -95,10 +113,13 @@ io.on('connection', async (socket) => {
 
     socket.on('cambiarPagina', async (direccion) => {
         currentPage += direccion;
-        // Asegúrate de que la página no sea menor que 1
         currentPage = Math.max(currentPage, 1);
-        const response = await productManager.getProducts(productsPerPage, currentPage);
-        socket.emit('actualizarLista', response);
+        try {
+            const response = await productManager.getProducts(productsPerPage, currentPage);
+            socket.emit('actualizarLista', response);
+        } catch (err) {
+            console.error('Error al cambiar de página:', err);
+        }
     });
 
     socket.on('disconnect', () => {
@@ -106,6 +127,9 @@ io.on('connection', async (socket) => {
     });
 });
 
-mongoose.connect(DB_URL)
+mongoose.connect(DB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
     .then(() => console.log('Conexión establecida con MongoDB'))
     .catch(err => console.error('Error al conectar con MongoDB:', err));

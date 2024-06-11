@@ -1,4 +1,15 @@
-<h1>Carritos</h1>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+</head>
+<body>
+    <h1>Bienvenido, {{ user.name }}</h1>
+    <p>Correo electrónico: {{ user.email }}</p>
+    <p>Rol: {{ user.role }}</p>
+    <form action="/api/logout" method="post">
+        <button type="submit">Cerrar sesión</button>
+    </form>
 
 <ul>
   {{#each carts}}
@@ -21,7 +32,7 @@
 </div>
 
 <ul>
-  {{#each payload}}
+  {{#each products}}
     <li>
       <h3>{{this.title}}</h3>
       <p>Precio: ${{this.price}}</p>
@@ -54,3 +65,5 @@ window.onload = function() {
     .catch(error => console.error('Error:', error));
 };
 </script>
+
+</body>

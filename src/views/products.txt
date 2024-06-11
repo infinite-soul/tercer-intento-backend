@@ -1,9 +1,5 @@
 <h2>Lista de Productos</h2>
 
-{{#if user.role === 'admin'}}
-  <p>Área de administrador</p>
-{{/if}}
-
 <div>
   {{#if hasPrevPage}}
     <a href="{{prevLink}}">Página Anterior</a>
@@ -31,5 +27,3 @@
     </li>
   {{/each}}
 </ul>
-
-<a href="/logout">Cerrar sesión</a>

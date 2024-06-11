@@ -4,24 +4,40 @@ import CartManager from '../services/cartManager.js';
 import MessageManager from '../services/messageManager.js';
 import { ProductModel } from '../dao/MongoDB/products.model.js';
 import { CartModel } from '../dao/MongoDB/carts.model.js';
+import { UserModel } from '../dao/MongoDB/User.model.js';
+import bcrypt from 'bcrypt';
+import { isAuthenticated , isAdmin} from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 const productManager = new ProductManager();
 const cartManager = new CartManager();
 const messageManager = new MessageManager();
 
-// Rutas para productos
+async function getUserData(sessionUserId) {
+    try {
+        const user = sessionUserId ? await UserModel.findById(sessionUserId).select('-password') : null;
+        return user;
+    } catch (error) {
+        throw new Error('Error al obtener los datos del usuario: ' + error.message);
+    }
+}
+
 router.get('/productos', async (req, res) => {
     const { limit = 10, page = 1, sort, query } = req.query;
 
     try {
+        // Obtener los datos del usuario
+        const user = await getUserData(req.session.user?.id);
+        
+        // Obtener la lista de productos
         const result = await productManager.getProducts(limit, page, sort, query);
-        res.render('productsPagination', result);
+        res.render('productsPagination', { user, products: result.payload });
     } catch (err) {
         console.error('Error al obtener los productos:', err);
         res.status(500).json({ error: 'Error al obtener los productos' });
     }
 });
+
 
 router.get('/products', async (req, res) => {
     const { limit, page, sort, query, category } = req.query;
@@ -224,5 +240,108 @@ router.post('/messages', async (req, res) => {
         res.status(500).json({ error: 'Error al agregar el mensaje' });
     }
 });
+
+router.get('/register', (req, res) => {
+    res.render('register');
+  });
+
+
+  router.post('/register', async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+
+        // Verificar si el usuario ya existe
+        const existingUser = await UserModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ error: 'El usuario ya existe' });
+        }
+
+        // Hash de la contraseña
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Crear un nuevo usuario
+        const newUser = new UserModel({ name, email, password: hashedPassword });
+        await newUser.save();
+
+        res.status(201).json({ message: 'Usuario registrado correctamente' });
+    } catch (err) {
+        console.error('Error al registrar usuario:', err);
+        res.status(500).json({ error: 'Error en el servidor' });
+    }
+});
+
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Verificar si el usuario es el administrador predefinido
+        if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+            req.session.user = {
+                id: 'adminId', // ID ficticio para el administrador
+                name: 'Admin',
+                email: 'adminCoder@coder.com',
+                role: 'admin'
+            };
+            return res.status(200).json({ message: 'Inicio de sesión exitoso como administrador' });
+        }
+
+        // Verificar en la base de datos para usuarios regulares
+        const user = await UserModel.findOne({ email });
+
+        if (!user) {
+            return res.status(401).json({ error: 'Credenciales inválidas' });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Credenciales inválidas' });
+        }
+
+        req.session.user = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            role: 'usuario' // Asignar el rol de usuario por defecto
+        };
+
+        res.status(200).json({ message: 'Inicio de sesión exitoso' });
+    } catch (err) {
+        console.error('Error al iniciar sesión:', err);
+        res.status(500).json({ error: 'Error en el servidor' });
+    }
+});
+  
+  // Ruta para cerrar sesión
+//   router.post('/logout', (req, res) => {
+//     req.session.destroy();
+//     res.status(200).json({ message: 'Sesión cerrada correctamente' });
+//   });
+
+  // routes/routes.js
+
+router.post('/logout', isAuthenticated, (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error al cerrar sesión:', err);
+            return res.status(500).send('Error al cerrar sesión');
+        }
+        else { console.error('cerrar sesion');
+        res.redirect('/login');
+    }
+    });
+});
+
+  
+  // Ruta para obtener los datos del usuario autenticado
+  router.get('/profile', isAuthenticated, (req, res) => {
+    const user = req.session.user;
+    res.json(user);
+  });
+  
+  // Ruta protegida para administradores
+  router.get('/admin', isAuthenticated, isAdmin, (req, res) => {
+    res.json({ message: 'Área de administrador' });
+  });
 
 export default router;
