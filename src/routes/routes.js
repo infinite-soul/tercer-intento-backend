@@ -1,4 +1,5 @@
 import express from 'express';
+import passport from 'passport';
 import ProductManager from '../services/productManager.js';
 import CartManager from '../services/cartManager.js';
 import MessageManager from '../services/messageManager.js';
@@ -6,12 +7,56 @@ import { ProductModel } from '../dao/MongoDB/products.model.js';
 import { CartModel } from '../dao/MongoDB/carts.model.js';
 import { UserModel } from '../dao/MongoDB/User.model.js';
 import bcrypt from 'bcrypt';
-import { isAuthenticated , isAdmin} from '../middlewares/auth.middleware.js';
+import { isAuthenticated, isAdmin } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 const productManager = new ProductManager();
 const cartManager = new CartManager();
 const messageManager = new MessageManager();
+
+router.get('/complete-registration', (req, res) => {
+    res.render('complete-registration', { user: req.user });
+  });
+  
+  router.post('/complete-registration', async (req, res) => {
+    const { name, email } = req.body;
+    try {
+      const user = await UserModel.findById(req.user.id);
+      user.name = name;
+      user.email = email;
+      await user.save();
+      res.redirect('/productos');
+    } catch (err) {
+      console.error('Error al completar el registro:', err);
+      res.status(500).json({ error: 'Error en el servidor' });
+    }
+  });
+
+// Registro de usuario
+router.post('/register', passport.authenticate('local-register', {
+    successRedirect: '/login',
+    failureRedirect: '/register'
+}));
+
+// Inicio de sesión
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+}));
+
+// Autenticación con GitHub
+router.get('/auth/github', passport.authenticate('github'));
+
+router.get('/users/profile-github', passport.authenticate('github', { failureRedirect: '/login' }),
+  (req, res) => {
+    // Redirigir al usuario a la página de completar registro si es necesario
+    if (!req.user.name || !req.user.email) {
+      return res.redirect('/complete-registration');
+    }
+    // Si no, redirigir a la página principal
+    res.redirect('/api/productos');
+  }
+);
 
 async function getUserData(sessionUserId) {
     try {
@@ -28,7 +73,7 @@ router.get('/productos', async (req, res) => {
     try {
         // Obtener los datos del usuario
         const user = await getUserData(req.session.user?.id);
-        
+
         // Obtener la lista de productos
         const result = await productManager.getProducts(limit, page, sort, query);
         res.render('productsPagination', { user, products: result.payload });
@@ -338,6 +383,18 @@ router.post('/logout', isAuthenticated, (req, res) => {
     const user = req.session.user;
     res.json(user);
   });
+
+  router.get('/profile', isAuthenticated, (req, res) => {
+    if (req.user) {
+        res.json({
+            name: req.user.name,
+            email: req.user.email,
+            githubId: req.user.githubId
+        });
+    } else {
+        res.status(401).json({ error: 'No autenticado' });
+    }
+});
   
   // Ruta protegida para administradores
   router.get('/admin', isAuthenticated, isAdmin, (req, res) => {

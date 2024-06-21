@@ -1,4 +1,7 @@
 import express from 'express';
+import session from 'express-session';
+import passport from 'passport';
+import './dao/passport/passport.js';
 import http from 'http';
 import { Server } from 'socket.io';
 import { engine } from 'express-handlebars';
@@ -10,7 +13,6 @@ import ProductManager from './services/productManager.js';
 import MessageManager from './services/messageManager.js';
 import Handlebars from 'handlebars';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
-import session from 'express-session';
 import { isAuthenticated, isAdmin } from './middlewares/auth.middleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,7 +27,7 @@ const app = express();
 const PORT = 8080;
 
 app.use(session({
-    secret: 'your-secure-secret-key',
+    secret: 'matangadijolachanga93',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Cambia a true si usas HTTPS
@@ -39,6 +41,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api', router);
 
@@ -60,6 +65,10 @@ app.get('/api/realtimeproducts', async (req, res) => {
         console.error('Error al obtener los productos:', err);
         res.status(500).send('Error al obtener los productos');
     }
+});
+
+app.get('/register', (req, res) => {
+    res.render('register');
 });
 
 const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
