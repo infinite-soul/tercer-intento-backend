@@ -3,6 +3,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github';
 import { UserModel } from '../MongoDB/User.model.js';
 import bcrypt from 'bcrypt';
+import "dotenv/config";
 
 // Estrategia de autenticación local
 passport.use(
@@ -53,9 +54,9 @@ passport.use(
 passport.use(
   new GitHubStrategy(
     {
-      clientID: 'c42219a25560526ea4f5',
-      clientSecret: 'eccf3bb46cb36fa982e56ae0a90fed8efd482585',
-      callbackURL: 'http://localhost:8080/api/users/profile-github'
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: process.env.GITHUB_CALLBACK_URL,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -63,7 +64,7 @@ passport.use(
         if (user) {
           return done(null, user);
         }
-        
+
         // Obtener el nombre y el email del perfil de GitHub
         const name = profile.displayName || profile.username || 'Usuario de GitHub';
         const email = profile.emails && profile.emails[0] ? profile.emails[0].value : `${profile.id}@github.com`;

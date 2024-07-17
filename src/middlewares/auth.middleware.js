@@ -1,7 +1,8 @@
 import { UserModel } from '../dao/MongoDB/User.model.js';
+import "dotenv/config";
 
-const adminEmail = 'adminCoder@coder.com';
-const adminPassword = 'adminCod3r123';
+const adminEmail = process.env.ADMIN_EMAIL;
+const adminPassword = process.env.ADMIN_PASSWORD;
 
 export const isAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {

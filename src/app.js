@@ -14,6 +14,7 @@ import MessageManager from './services/messageManager.js';
 import Handlebars from 'handlebars';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
 import { isAuthenticated, isAdmin } from './middlewares/auth.middleware.js';
+import "dotenv/config";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,16 +22,16 @@ const __dirname = path.dirname(__filename);
 const messageManager = new MessageManager();
 const productManager = new ProductManager();
 
-const DB_URL = 'mongodb+srv://lordchingzo:coderhouse@product.n09ozpk.mongodb.net/ecommerce?retryWrites=true&w=majority';
+const DB_URL = process.env.DB_URL;
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 app.use(session({
-    secret: 'matangadijolachanga93',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Cambia a true si usas HTTPS
+    cookie: { secure: false } 
 }));
 
 app.engine('handlebars', engine({
@@ -56,7 +57,7 @@ app.get('/login', (req, res) => {
 
 app.get('/api/realtimeproducts', async (req, res) => {
     try {
-        const allProducts = await productManager.getProducts(1); // Obtener la primera página de productos
+        const allProducts = await productManager.getProducts(1); 
         res.render('realTimeProducts', {
             title: 'Real-Time Products',
             productos: allProducts,

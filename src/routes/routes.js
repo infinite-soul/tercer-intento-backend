@@ -320,11 +320,11 @@ router.post('/login', async (req, res) => {
         const { email, password } = req.body;
 
         // Verificar si el usuario es el administrador predefinido
-        if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
+        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
             req.session.user = {
                 id: 'adminId', // ID ficticio para el administrador
                 name: 'Admin',
-                email: 'adminCoder@coder.com',
+                email: process.env.ADMIN_EMAIL,
                 role: 'admin'
             };
             return res.status(200).json({ message: 'Inicio de sesión exitoso como administrador' });
