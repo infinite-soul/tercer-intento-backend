@@ -59,12 +59,12 @@ app.use('/api/carts', cartRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/', viewsRoutes)
 
-app.use('/productos', isAuthenticated);
-app.use('/admin', isAuthenticated, isAdmin);
+// app.use('/productos', isAuthenticated);
+// app.use('/admin', isAuthenticated, isAdmin);
 
-app.get('/login', (req, res) => {
-    res.render('login');
-});
+// app.get('/login', (req, res) => {
+//     res.render('login');
+// });
 
 // app.get('/api/realtimeproducts', async (req, res) => {
 //     try {
@@ -79,9 +79,9 @@ app.get('/login', (req, res) => {
 //     }
 // });
 
-app.get('/register', (req, res) => {
-    res.render('register');
-});
+// app.get('/register', (req, res) => {
+//     res.render('register');
+// });
 
 const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
