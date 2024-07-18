@@ -7,7 +7,13 @@ import { Server } from 'socket.io';
 import { engine } from 'express-handlebars';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import router from './routes/routes.js';
+// import router from './routes/routes.js';
+
+import productRoutes from './routes/productRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
+import authRoutes from './routes/authRoutes.js';
+import viewsRoutes from './routes/viewsRoutes.js';
+
 import mongoose from 'mongoose';
 import ProductManager from './services/productManager.js';
 import MessageManager from './services/messageManager.js';
@@ -46,7 +52,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api', router);
+// app.use('/api', router);
+
+app.use('/api/products', productRoutes);
+app.use('/api/carts', cartRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/', viewsRoutes)
 
 app.use('/productos', isAuthenticated);
 app.use('/admin', isAuthenticated, isAdmin);
@@ -55,18 +66,18 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
-app.get('/api/realtimeproducts', async (req, res) => {
-    try {
-        const allProducts = await productManager.getProducts(1); 
-        res.render('realTimeProducts', {
-            title: 'Real-Time Products',
-            productos: allProducts,
-        });
-    } catch (err) {
-        console.error('Error al obtener los productos:', err);
-        res.status(500).send('Error al obtener los productos');
-    }
-});
+// app.get('/api/realtimeproducts', async (req, res) => {
+//     try {
+//         const allProducts = await productManager.getProducts(1); 
+//         res.render('realTimeProducts', {
+//             title: 'Real-Time Products',
+//             productos: allProducts,
+//         });
+//     } catch (err) {
+//         console.error('Error al obtener los productos:', err);
+//         res.status(500).send('Error al obtener los productos');
+//     }
+// });
 
 app.get('/register', (req, res) => {
     res.render('register');
