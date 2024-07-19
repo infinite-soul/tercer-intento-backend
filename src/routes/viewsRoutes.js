@@ -1,16 +1,16 @@
 import express from 'express';
 import passport from 'passport';
 import { UserModel } from '../dao/MongoDB/User.model.js';
-import ProductManager from '../services/productManager.js';
+import ProductService from '../services/productService.js';
 import bcrypt from 'bcrypt';
 import { isAuthenticated, isAdmin } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
-const productManager = new ProductManager();
+const productService = new ProductService();
 
 router.get('/realtimeproducts', async (req, res) => {
     try {
-        const allProducts = await productManager.getProducts(1); 
+        const allProducts = await productService.getProducts(1); 
         res.render('realTimeProducts', {
             title: 'Real-Time Products',
             productos: allProducts,

@@ -15,7 +15,7 @@ import authRoutes from './routes/authRoutes.js';
 import viewsRoutes from './routes/viewsRoutes.js';
 
 import mongoose from 'mongoose';
-import ProductManager from './services/productManager.js';
+import ProductService from './services/productService.js';
 import MessageManager from './services/messageManager.js';
 import Handlebars from 'handlebars';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
@@ -26,7 +26,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const messageManager = new MessageManager();
-const productManager = new ProductManager();
+const productService = new ProductService();
 
 const DB_URL = process.env.DB_URL;
 
@@ -68,7 +68,7 @@ app.use('/', viewsRoutes)
 
 // app.get('/api/realtimeproducts', async (req, res) => {
 //     try {
-//         const allProducts = await productManager.getProducts(1); 
+//         const allProducts = await productService.getProducts(1); 
 //         res.render('realTimeProducts', {
 //             title: 'Real-Time Products',
 //             productos: allProducts,
@@ -97,7 +97,7 @@ io.on('connection', async (socket) => {
         const messages = await messageManager.getMessages();
         socket.emit('loadMessages', messages);
 
-        const allProducts = await productManager.getProducts(productsPerPage, currentPage);
+        const allProducts = await productService.getProducts(productsPerPage, currentPage);
         socket.emit('actualizarLista', allProducts);
     } catch (err) {
         console.error('Error al obtener los mensajes o los productos:', err);
@@ -114,8 +114,8 @@ io.on('connection', async (socket) => {
 
     socket.on('nuevoProducto', async (data) => {
         try {
-            await productManager.addProduct(data);
-            const allProducts = await productManager.getProducts(productsPerPage, currentPage);
+            await productService.addProduct(data);
+            const allProducts = await productService.getProducts(productsPerPage, currentPage);
             io.emit('actualizarLista', allProducts);
         } catch (err) {
             console.error('Error al agregar el producto:', err);
@@ -124,8 +124,8 @@ io.on('connection', async (socket) => {
 
     socket.on('eliminarProducto', async (productId) => {
         try {
-            await productManager.deleteProduct(productId);
-            const allProducts = await productManager.getProducts(productsPerPage, currentPage);
+            await productService.deleteProduct(productId);
+            const allProducts = await productService.getProducts(productsPerPage, currentPage);
             io.emit('actualizarLista', allProducts);
         } catch (err) {
             console.error('Error al eliminar el producto:', err);
@@ -136,7 +136,7 @@ io.on('connection', async (socket) => {
         currentPage += direccion;
         currentPage = Math.max(currentPage, 1);
         try {
-            const response = await productManager.getProducts(productsPerPage, currentPage);
+            const response = await productService.getProducts(productsPerPage, currentPage);
             socket.emit('actualizarLista', response);
         } catch (err) {
             console.error('Error al cambiar de página:', err);
