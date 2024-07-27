@@ -1,7 +1,8 @@
 import express from 'express';
 import session from 'express-session';
 import passport from 'passport';
-import './dao/passport/passport.js';
+import configurePassport from './dao/passport/passportConfig.js';
+import authRoutes from './routes/authRoutes.js';
 import http from 'http';
 import { Server } from 'socket.io';
 import { engine } from 'express-handlebars';
@@ -11,7 +12,7 @@ import { fileURLToPath } from 'url';
 
 import productRoutes from './routes/productRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
-import authRoutes from './routes/authRoutes.js';
+
 import viewsRoutes from './routes/viewsRoutes.js';
 
 import mongoose from 'mongoose';
@@ -53,6 +54,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // app.use('/api', router);
+
+configurePassport();
 
 app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
