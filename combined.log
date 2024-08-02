@@ -1,0 +1,23 @@
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-02T21:21:17.386Z"}
+{"level":"info","message":"GET /login","timestamp":"2024-08-02T21:21:34.379Z"}
+{"level":"info","message":"POST /api/auth/login","timestamp":"2024-08-02T21:21:36.190Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-02T21:23:09.656Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-02T21:24:05.508Z"}
+{"level":"info","message":"POST /api/auth/login","timestamp":"2024-08-02T21:24:20.275Z"}
+{"level":"info","message":"Intento de inicio de sesión","timestamp":"2024-08-02T21:24:20.284Z"}
+{"level":"info","message":"Usuario autenticado exitosamente","timestamp":"2024-08-02T21:24:20.461Z"}
+{"level":"info","message":"Sesión iniciada, redirigiendo","timestamp":"2024-08-02T21:24:20.462Z"}
+{"level":"info","message":"GET /","timestamp":"2024-08-02T21:24:20.563Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-02T21:27:01.779Z"}
+{"level":"info","message":"POST /api/auth/login","timestamp":"2024-08-02T21:27:08.893Z"}
+{"level":"info","message":"Intento de inicio de sesión","timestamp":"2024-08-02T21:27:08.897Z"}
+{"level":"info","message":"Usuario autenticado exitosamente","timestamp":"2024-08-02T21:27:09.061Z"}
+{"level":"info","message":"Sesión iniciada, redirigiendo","timestamp":"2024-08-02T21:27:09.063Z"}
+{"level":"info","message":"GET /","timestamp":"2024-08-02T21:27:09.165Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-02T21:28:30.877Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-02T21:29:39.393Z"}
+{"level":"info","message":"GET /login","timestamp":"2024-08-02T21:30:34.768Z"}
+{"level":"info","message":"POST /api/auth/login","timestamp":"2024-08-02T21:30:36.475Z"}
+{"level":"info","message":"Usuario autenticado exitosamente","timestamp":"2024-08-02T21:30:36.760Z"}
+{"level":"info","message":"Sesión iniciada, redirigiendo","timestamp":"2024-08-02T21:30:36.763Z"}
+{"level":"info","message":"GET /","timestamp":"2024-08-02T21:30:36.863Z"}

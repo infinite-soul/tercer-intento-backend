@@ -1,5 +1,6 @@
 import userService from '../services/userService.js';
 import passport from 'passport';
+import logger from '../utils/logger.js'
 
 class AuthController {
   async register(req, res, next) {
@@ -20,17 +21,24 @@ class AuthController {
   }
 
   async login(req, res, next) {
+    console.log('Intento de inicio de sesión', req.body);
     passport.authenticate('local', (err, user, info) => {
+      console.log('Resultado de autenticación:', { err, user, info });
       if (err) {
+        logger.error('Error en autenticación:', err);
         return next(err);
       }
       if (!user) {
+        logger.warn('Usuario no autenticado:', info.message);
         return res.status(400).json({ message: info.message });
       }
+      logger.info('Usuario autenticado exitosamente');
       req.login(user, (err) => {
         if (err) {
+          logger.error('Error al iniciar sesión:', err);
           return next(err);
         }
+        logger.info('Sesión iniciada, redirigiendo');
         return res.redirect('/');
       });
     })(req, res, next);

@@ -24,20 +24,16 @@ export default function configurePassport() {
     )
   );
 
-  passport.use(
-    'local',
-    new LocalStrategy(
-      { usernameField: 'email' },
-      async (email, password, done) => {
-        try {
-          const user = await userService.login(email, password);
-          return done(null, user);
-        } catch (err) {
-          return done(null, false, { message: err.message });
-        }
+  passport.use(new LocalStrategy({ usernameField: 'email' },
+    async (email, password, done) => {
+      try {
+        const user = await userService.login(email, password);
+        return done(null, user);
+      } catch (error) {
+        return done(null, false, { message: error.message });
       }
-    )
-  );
+    }
+  ));
 
   passport.use(
     new GitHubStrategy(

@@ -16,6 +16,14 @@ export const isAdmin = (req, res, next) => {
     if (req.user && (req.user.email === adminEmail || req.user.role === 'admin')) {
         return next();
     } else {
-        res.status(403).send('Acceso denegado: No eres administrador');
+        res.status(403).json({ error: 'Acceso denegado: No eres administrador' });
+    }
+};
+
+export const isUser = (req, res, next) => {
+    if (req.user && req.user.role === 'usuario') {
+        return next();
+    } else {
+        res.status(403).json({ error: 'Acceso denegado: Esta acción requiere ser usuario' });
     }
 };

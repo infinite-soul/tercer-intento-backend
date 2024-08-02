@@ -23,6 +23,8 @@ import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access
 import { isAuthenticated, isAdmin } from './middlewares/auth.middleware.js';
 import "dotenv/config";
 
+import logger from './utils/logger.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -52,6 +54,13 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+    logger.info(`${req.method} ${req.url}`);
+    next();
+  });
+
+
 
 // app.use('/api', router);
 
@@ -151,9 +160,14 @@ io.on('connection', async (socket) => {
     });
 });
 
-mongoose.connect(DB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+mongoose.connect(process.env.DB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
-    .then(() => console.log('Conexión establecida con MongoDB'))
-    .catch(err => console.error('Error al conectar con MongoDB:', err));
+.then(() => logger.info('Conectado a MongoDB'))
+.catch((err) => logger.error('Error al conectar a MongoDB:', err));
+
+app.use((err, req, res, next) => {
+    logger.error(err.stack);
+    res.status(500).json({ error: 'Error en el servidor' });
+  });

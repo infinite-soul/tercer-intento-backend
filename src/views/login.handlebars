@@ -1,42 +1,39 @@
-<!-- register.handlebars -->
-<h1>Registro de usuario</h1>
-<form id="register-form" action="/api/register" method="POST">
-  <label for="name">Nombre:</label>
-  <input type="text" id="name" name="name" required>
+<!-- login.handlebars -->
+<h1>Inicio de sesión</h1>
+<form id="login-form" action="/api/auth/login" method="POST">
   <label for="email">Correo electrónico:</label>
   <input type="email" id="email" name="email" required>
   <label for="password">Contraseña:</label>
   <input type="password" id="password" name="password" required>
-  <button type="submit">Registrarse</button>
+  <button type="submit">Iniciar sesión</button>
 </form>
-<p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión aquí</a></p>
+<p>¿No tienes una cuenta? <a href="/register">Regístrate aquí</a></p>
 
 <script>
-  const registerForm = document.getElementById('register-form');
-  registerForm.addEventListener('submit', async (e) => {
+  const loginForm = document.getElementById('login-form');
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
-        alert('Usuario registrado correctamente');
-        window.location.href = '/login';
+        alert('Inicio de sesión exitoso');
+        window.location.href = '/realTimeProducts'; // Redirigir a la página deseada después del inicio de sesión
       } else {
         const error = await response.json();
         alert(error.error);
       }
     } catch (err) {
-      console.error('Error al registrar usuario:', err);
+      console.error('Error al iniciar sesión:', err);
       alert('Error en el servidor');
     }
   });
