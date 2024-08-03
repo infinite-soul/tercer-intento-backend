@@ -26,11 +26,12 @@
       });
 
       if (response.ok) {
-        alert('Inicio de sesión exitoso');
-        window.location.href = '/realTimeProducts'; // Redirigir a la página deseada después del inicio de sesión
+        const data = await response.json();
+        alert(data.message);
+        window.location.href = '/realTimeProducts';
       } else {
         const error = await response.json();
-        alert(error.error);
+        alert(error.message);
       }
     } catch (err) {
       console.error('Error al iniciar sesión:', err);

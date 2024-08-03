@@ -95,6 +95,10 @@ app.use('/', viewsRoutes)
 //     res.render('register');
 // });
 
+app.get('/', (req, res) => {
+    res.redirect('/login');
+  });
+
 const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 const io = new Server(server);

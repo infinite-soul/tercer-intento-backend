@@ -39,7 +39,7 @@ class AuthController {
           return next(err);
         }
         logger.info('Sesión iniciada, redirigiendo');
-        return res.redirect('/');
+        return res.status(200).json({ message: 'Inicio de sesión exitoso' });
       });
     })(req, res, next);
   }
