@@ -4,20 +4,43 @@ import logger from '../utils/logger.js'
 
 class AuthController {
   async register(req, res, next) {
+    logger.info('Register function triggered with data:', req.body);
+  
     passport.authenticate('local-register', (err, user, info) => {
       if (err) {
-        return next(err);
+        logger.error('Error during authentication:', err);
+        return res.status(500).json({ message: 'Error interno del servidor' });
       }
       if (!user) {
+        logger.warn('Authentication failed, no user found:', info.message);
         return res.status(400).json({ message: info.message });
       }
+  
       req.login(user, (err) => {
         if (err) {
-          return next(err);
+          logger.error('Error during login:', err);
+          return res.status(500).json({ message: 'Error al iniciar sesión' });
         }
-        return res.redirect('/login');
+        logger.info('User successfully registered and logged in:', user);
+        return res.status(201).json({ message: 'Registro exitoso', userId: user._id });
       });
     })(req, res, next);
+  }
+  
+  async completeRegistration(req, res) {
+    const { name, email } = req.body;
+    if (!req.user) {
+      logger.error('No user found in request');
+      return res.status(401).json({ error: 'No autenticado' });
+    }
+    try {
+      const updatedUser = await userService.updateUserProfile(req.user.id, { name, email });
+      logger.info('User registration completed:', updatedUser);
+      res.status(200).json({ message: 'Registro completado con éxito' });
+    } catch (err) {
+      logger.error('Error al completar el registro:', err);
+      res.status(500).json({ error: 'Error en el servidor al completar el registro' });
+    }
   }
 
   async login(req, res, next) {
@@ -63,16 +86,6 @@ class AuthController {
     }
   }
 
-  async completeRegistration(req, res) {
-    const { name, email } = req.body;
-    try {
-      const updatedUser = await userService.updateUserProfile(req.user.id, { name, email });
-      res.redirect('/productos');
-    } catch (err) {
-      console.error('Error al completar el registro:', err);
-      res.status(500).json({ error: 'Error en el servidor' });
-    }
-  }
 }
 
 export default new AuthController();

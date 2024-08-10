@@ -10,9 +10,11 @@ class UserDao {
   }
 
   async create(userData) {
+    console.log('Creating a new user with the following data:', userData);
     const newUser = new UserModel(userData);
     return newUser.save();
-  }
+}
+
 
   async update(id, userData) {
     return UserModel.findByIdAndUpdate(id, userData, { new: true });

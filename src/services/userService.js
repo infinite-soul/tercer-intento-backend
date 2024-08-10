@@ -1,5 +1,6 @@
 import userDao from '../dao/userDao.js';
 import bcrypt from 'bcrypt';
+import logger from '../utils/logger.js';
 
 class UserService {
   async findByEmail(email) {
@@ -11,8 +12,26 @@ class UserService {
   }
 
   async register(userData) {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    return userDao.create({ ...userData, password: hashedPassword });
+    try {
+      const hashedPassword = await bcrypt.hash(userData.password, 10);
+      const newUser = await userDao.create({ ...userData, password: hashedPassword });
+      logger.info('New user registered:', newUser);
+      return newUser;
+    } catch (error) {
+      logger.error('Error registering new user:', error);
+      throw error;
+    }
+  }
+  
+  async updateUserProfile(id, userData) {
+    try {
+      const updatedUser = await userDao.update(id, userData);
+      logger.info('User profile updated:', updatedUser);
+      return updatedUser;
+    } catch (error) {
+      logger.error('Error updating user profile:', error);
+      throw error;
+    }
   }
 
   async login(email, password) {
@@ -40,9 +59,7 @@ class UserService {
     return user;
   }
 
-  async updateUserProfile(id, userData) {
-    return userDao.update(id, userData);
-  }
+
 }
 
 export default new UserService();

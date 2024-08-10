@@ -3,21 +3,27 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as GitHubStrategy } from 'passport-github';
 import userService from '../../services/userService.js';
 import "dotenv/config";
+import logger from '../../utils/logger.js';
 
 export default function configurePassport() {
   passport.use(
     'local-register',
     new LocalStrategy(
-      { usernameField: 'email', passReqToCallback: true },
+      { usernameField: 'email', passwordField: 'password', passReqToCallback: true },
       async (req, email, password, done) => {
         try {
           const existingUser = await userService.findByEmail(email);
           if (existingUser) {
             return done(null, false, { message: 'El correo electrónico ya está registrado' });
           }
-          const newUser = await userService.register({ email, password });
+          const newUser = await userService.register({ 
+            email, 
+            password, 
+            name: req.body.name || 'Usuario Temporal'
+          });
           return done(null, newUser);
         } catch (err) {
+          logger.error('Error en local-register strategy:', err);
           return done(err);
         }
       }

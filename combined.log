@@ -45,3 +45,80 @@
 {"level":"info","message":"Usuario autenticado exitosamente","timestamp":"2024-08-03T03:14:30.224Z"}
 {"level":"info","message":"Sesión iniciada, redirigiendo","timestamp":"2024-08-03T03:14:30.227Z"}
 {"level":"info","message":"GET /realTimeProducts","timestamp":"2024-08-03T03:14:32.678Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-03T03:15:33.459Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-03T03:15:48.735Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-03T03:25:52.892Z"}
+{"level":"info","message":"GET /login","timestamp":"2024-08-03T03:26:56.940Z"}
+{"level":"info","message":"POST /api/auth/login","timestamp":"2024-08-03T03:26:58.776Z"}
+{"level":"info","message":"Usuario autenticado exitosamente","timestamp":"2024-08-03T03:26:59.159Z"}
+{"level":"info","message":"Sesión iniciada, redirigiendo","timestamp":"2024-08-03T03:26:59.161Z"}
+{"level":"info","message":"GET /realTimeProducts","timestamp":"2024-08-03T03:27:01.119Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T19:29:09.314Z"}
+{"level":"info","message":"GET /productos","timestamp":"2024-08-10T19:29:42.273Z"}
+{"level":"info","message":"GET /login","timestamp":"2024-08-10T19:29:42.288Z"}
+{"level":"info","message":"GET /favicon.ico","timestamp":"2024-08-10T19:29:42.383Z"}
+{"level":"info","message":"POST /api/auth/login","timestamp":"2024-08-10T19:29:45.378Z"}
+{"level":"info","message":"Usuario autenticado exitosamente","timestamp":"2024-08-10T19:29:45.730Z"}
+{"level":"info","message":"Sesión iniciada, redirigiendo","timestamp":"2024-08-10T19:29:45.732Z"}
+{"level":"info","message":"GET /realTimeProducts","timestamp":"2024-08-10T19:29:47.260Z"}
+{"level":"info","message":"GET /register","timestamp":"2024-08-10T19:29:50.936Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T19:30:10.861Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T19:39:50.193Z"}
+{"level":"info","message":"GET /register","timestamp":"2024-08-10T19:40:07.853Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T19:40:21.689Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T19:40:52.470Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T19:43:31.522Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T19:43:31.596Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T19:45:05.806Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T19:45:10.276Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T19:52:17.144Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T19:53:49.556Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T19:53:49.748Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T19:55:11.390Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T19:55:15.534Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T19:55:38.674Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:01:39.669Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:01:53.273Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T20:01:57.878Z"}
+{"level":"info","message":"GET /register","timestamp":"2024-08-10T20:02:06.689Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T20:02:14.793Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:02:39.027Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:02:46.027Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:09:27.763Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:11:09.511Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:11:20.848Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:11:52.332Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:12:25.604Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T20:12:33.739Z"}
+{"level":"info","message":"GET /register","timestamp":"2024-08-10T20:12:36.507Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T20:12:43.734Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:14:16.602Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:14:38.639Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:14:55.097Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:15:56.082Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:16:14.226Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:16:55.183Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:17:47.473Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T20:18:55.885Z"}
+{"level":"info","message":"GET /register","timestamp":"2024-08-10T20:18:57.876Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T20:19:03.689Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:22:31.603Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:23:06.720Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T20:23:48.506Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:26:57.432Z"}
+{"level":"info","message":"POST /api/register","timestamp":"2024-08-10T20:27:02.770Z"}
+{"level":"info","message":"GET /register","timestamp":"2024-08-10T20:27:05.429Z"}
+{"level":"info","message":"POST /api/auth/register","timestamp":"2024-08-10T20:27:16.899Z"}
+{"email":"rthrth@asdf.com","level":"info","message":"Register function triggered with data:","name":"asdf","password":"sdfgsdfeña","timestamp":"2024-08-10T20:27:16.901Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:28:37.482Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:29:08.428Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:29:20.016Z"}
+{"level":"info","message":"Conectado a MongoDB","timestamp":"2024-08-10T20:30:14.714Z"}
+{"level":"info","message":"POST /api/auth/register","timestamp":"2024-08-10T20:30:26.590Z"}
+{"email":"rthrth@asdf.com","level":"info","message":"Register function triggered with data:","name":"asdf","password":"sdfgsdfeña","timestamp":"2024-08-10T20:30:26.592Z"}
+{"level":"warn","message":"Authentication failed, no user found:","timestamp":"2024-08-10T20:30:26.674Z"}
+{"level":"info","message":"POST /api/auth/register","timestamp":"2024-08-10T20:30:38.092Z"}
+{"email":"rgrgrh@asdergf.com","level":"info","message":"Register function triggered with data:","name":"adegrg","password":"ergerg","timestamp":"2024-08-10T20:30:38.096Z"}
+{"$__":{"$versionError":null,"activePaths":{"paths":{"email":"require"},"states":{"default":{},"modify":{},"require":{"email":true}}},"backup":{"activePaths":{"default":{"_id":true,"createdAt":true,"role":true},"modify":{"email":true,"name":true,"password":true}},"validationError":null},"cachedRequired":{},"inserting":true,"op":null,"saveOptions":null,"savedState":{},"saving":null,"validating":null},"$isNew":false,"_doc":{"__v":0,"_id":"66b7cdee186a6dd260e18d26","createdAt":"2024-08-10T20:30:38.315Z","email":"rgrgrh@asdergf.com","name":"adegrg","password":"$2b$10$tP1gvivtZatMGVA7eJi0MObNS8pMiuFygUSxZ4u32SYx8qaZfke0u","role":"usuario"},"level":"info","message":"New user registered:","timestamp":"2024-08-10T20:30:38.539Z"}
+{"$__":{"$versionError":null,"activePaths":{"paths":{"email":"require"},"states":{"default":{},"modify":{},"require":{"email":true}}},"backup":{"activePaths":{"default":{"_id":true,"createdAt":true,"role":true},"modify":{"email":true,"name":true,"password":true}},"validationError":null},"cachedRequired":{},"inserting":true,"op":null,"saveOptions":null,"savedState":{},"saving":null,"validating":null},"$isNew":false,"_doc":{"__v":0,"_id":"66b7cdee186a6dd260e18d26","createdAt":"2024-08-10T20:30:38.315Z","email":"rgrgrh@asdergf.com","name":"adegrg","password":"$2b$10$tP1gvivtZatMGVA7eJi0MObNS8pMiuFygUSxZ4u32SYx8qaZfke0u","role":"usuario"},"level":"info","message":"User successfully registered and logged in:","timestamp":"2024-08-10T20:30:38.545Z"}
+{"level":"info","message":"GET /login","timestamp":"2024-08-10T20:30:40.030Z"}
