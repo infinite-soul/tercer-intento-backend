@@ -5,6 +5,7 @@
     "description": "",
     "main": "ejercicios.js",
     "dependencies": {
+        "@faker-js/faker": "^8.4.1",
         "@handlebars/allow-prototype-access": "^1.0.5",
         "ajax": "^0.0.4",
         "bcrypt": "^5.1.1",
@@ -12,6 +13,7 @@
         "express": "^4.19.2",
         "express-handlebars": "^7.1.2",
         "express-session": "^1.18.0",
+        "faker": "^6.6.6",
         "mongoose": "^8.4.0",
         "mongoose-paginate-v2": "^1.8.2",
         "nodemon": "^3.1.0",

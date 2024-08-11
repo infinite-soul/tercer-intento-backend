@@ -13,7 +13,9 @@ class UserService {
 
   async register(userData) {
     try {
+      console.log("Contraseña original:", userData.password);
       const hashedPassword = await bcrypt.hash(userData.password, 10);
+      console.log("Contraseña hasheada:", hashedPassword);
       const newUser = await userDao.create({ ...userData, password: hashedPassword });
       logger.info('New user registered:', newUser);
       return newUser;
@@ -22,7 +24,7 @@ class UserService {
       throw error;
     }
   }
-  
+
   async updateUserProfile(id, userData) {
     try {
       const updatedUser = await userDao.update(id, userData);
@@ -34,17 +36,19 @@ class UserService {
     }
   }
 
-  async login(email, password) {
-    const user = await userDao.findByEmail(email);
-    if (!user) {
-      throw new Error('Usuario no encontrado');
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      throw new Error('Contraseña incorrecta');
-    }
-    return user;
+async login(email, password) {
+  const user = await userDao.findByEmail(email);
+  if (!user) {
+    throw new Error('Usuario no encontrado');
   }
+  console.log("Contraseña ingresada:", password);
+  console.log("Contraseña hasheada en BD:", user.password);
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error('Contraseña incorrecta');
+  }
+  return user;
+}
 
   async findOrCreateGithubUser(profile) {
     let user = await userDao.findByGithubId(profile.id);

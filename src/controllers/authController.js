@@ -12,7 +12,7 @@ class AuthController {
         return res.status(500).json({ message: 'Error interno del servidor' });
       }
       if (!user) {
-        logger.warn('Authentication failed, no user found:', info.message);
+        logger.warning('Authentication failed, no user found:', info.message);
         return res.status(400).json({ message: info.message });
       }
   
@@ -52,7 +52,7 @@ class AuthController {
         return next(err);
       }
       if (!user) {
-        logger.warn('Usuario no autenticado:', info.message);
+        logger.warning('Usuario no autenticado:', info.message);
         return res.status(400).json({ message: info.message });
       }
       logger.info('Usuario autenticado exitosamente');
