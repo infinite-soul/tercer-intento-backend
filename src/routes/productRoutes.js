@@ -6,6 +6,7 @@ import { isAuthenticated, isAdmin } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
+router.get('/mockingproducts', productController.getMockProducts);
 router.get('/', productController.getProducts);
 router.get('/:pid', productController.getProductById);
 router.post('/', isAuthenticated, isAdmin, productController.addProduct);

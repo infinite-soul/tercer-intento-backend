@@ -1,6 +1,9 @@
 // src/controllers/productController.js
 
 import ProductService from '../services/productService.js';
+import { createError, CustomError } from '../utils/errors.js';
+import logger from '../utils/logger.js';
+import mockingModule from '../utils/mockingModule.js';
 
 const productService = new ProductService();
 
@@ -10,12 +13,16 @@ class ProductController {
         try {
             const response = await productService.getProducts(limit, page, sort, query, category);
             if (response.payload.length === 0) {
-                return res.status(404).json({ error: 'Página no encontrada' });
+                throw createError('PRODUCT_NOT_FOUND');
             }
             res.json(response);
         } catch (err) {
-            console.error('Error en el controlador al obtener los productos:', err);
-            res.status(500).json({ error: 'Error al obtener los productos' });
+            logger.error('Error en el controlador al obtener los productos:', err);
+            if (err instanceof CustomError) {
+                res.status(404).json({ error: err.message });
+            } else {
+                res.status(500).json({ error: 'Error al obtener los productos' });
+            }
         }
     }
 
@@ -24,23 +31,36 @@ class ProductController {
         try {
             const product = await productService.getProductById(productId);
             if (!product) {
-                return res.status(404).json({ error: 'Producto no encontrado' });
+                throw createError('PRODUCT_NOT_FOUND');
             }
             res.render('productDetails', { product });
         } catch (err) {
-            console.error('Error en el controlador al obtener el producto:', err);
-            res.status(500).json({ error: 'Error al obtener el producto' });
+            logger.error('Error en el controlador al obtener el producto:', err);
+            if (err instanceof CustomError) {
+                res.status(404).json({ error: err.message });
+            } else {
+                res.status(500).json({ error: 'Error al obtener el producto' });
+            }
         }
     }
 
     async addProduct(req, res) {
         const newProduct = req.body;
         try {
+            const requiredFields = ['title', 'description', 'price', 'thumbnail', 'stock', 'code', 'category'];
+            const missingFields = requiredFields.filter(field => !newProduct[field]);
+            if (missingFields.length > 0) {
+                throw createError('MISSING_REQUIRED_FIELDS', { missingFields });
+            }
             const product = await productService.addProduct(newProduct);
             res.status(201).json(product);
         } catch (err) {
-            console.error('Error en el controlador al agregar el producto:', err);
-            res.status(500).json({ error: 'Error al agregar el producto' });
+            logger.error('Error en el controlador al agregar el producto:', err);
+            if (err instanceof CustomError) {
+                res.status(400).json({ error: err.message, details: err.details });
+            } else {
+                res.status(500).json({ error: 'Error al agregar el producto' });
+            }
         }
     }
 
@@ -72,6 +92,17 @@ class ProductController {
             res.status(500).json({ error: 'Error al eliminar el producto' });
         }
     }
+
+    async getMockProducts(req, res) {
+        try {
+            const mockProducts = mockingModule.generateMockProducts(50);
+            res.json(mockProducts);
+        } catch (err) {
+            logger.error('Error al generar productos mock:', err);
+            res.status(500).json({ error: 'Error al generar productos mock' });
+        }
+    }
 }
+
 
 export default new ProductController();

@@ -15,7 +15,14 @@ export const errorDictionary = {
         message: "Faltan campos requeridos",
         code: "PRODUCT_002"
     },
-    // Agrega más errores comunes aquí
+    PRODUCT_NOT_FOUND: {
+        message: "Producto no encontrado",
+        code: "PRODUCT_003"
+    },
+    INVALID_PRODUCT_DATA: {
+        message: "Datos de producto inválidos",
+        code: "PRODUCT_004"
+    }
 };
 
 export const createError = (errorType, additionalDetails = {}) => {
