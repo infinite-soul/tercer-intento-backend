@@ -102,6 +102,30 @@ class ProductController {
             res.status(500).json({ error: 'Error al generar productos mock' });
         }
     }
+    async createMockProducts(req, res) {
+        try {
+            const mockProducts = mockingModule.generateMockProducts(50);
+            const createdProducts = [];
+
+            for (const product of mockProducts) {
+                try {
+                    const createdProduct = await productService.addProduct(product);
+                    createdProducts.push(createdProduct);
+                } catch (err) {
+                    logger.error(`Error al crear producto mock: ${err.message}`);
+                    // Continúa con el siguiente producto si hay un error
+                }
+            }
+
+            res.status(201).json({
+                message: `Se crearon ${createdProducts.length} productos de prueba`,
+                products: createdProducts
+            });
+        } catch (err) {
+            logger.error('Error al crear productos mock:', err);
+            res.status(500).json({ error: 'Error al crear productos mock' });
+        }
+    }
 }
 
 
