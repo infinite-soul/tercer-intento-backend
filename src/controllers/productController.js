@@ -52,6 +52,7 @@ class ProductController {
             if (missingFields.length > 0) {
                 throw createError('MISSING_REQUIRED_FIELDS', { missingFields });
             }
+            newProduct.owner = req.user.role === 'premium' ? req.user.email : 'admin';
             const product = await productService.addProduct(newProduct);
             res.status(201).json(product);
         } catch (err) {
@@ -82,10 +83,14 @@ class ProductController {
     async deleteProduct(req, res) {
         const id = req.params.pid;
         try {
-            const deleted = await productService.deleteProduct(id);
-            if (!deleted) {
+            const product = await productService.getProductById(id);
+            if (!product) {
                 return res.status(404).json({ error: 'Producto no encontrado' });
             }
+            if (req.user.role === 'premium' && product.owner !== req.user.email) {
+                return res.status(403).json({ error: 'No tienes permiso para eliminar este producto' });
+            }
+            const deleted = await productService.deleteProduct(id);
             res.json({ message: 'Producto eliminado' });
         } catch (err) {
             console.error('Error en el controlador al eliminar el producto:', err);

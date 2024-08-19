@@ -21,6 +21,14 @@ router.get('/realtimeproducts', async (req, res) => {
     }
 });
 
+router.get('/forgot-password', (req, res) => {
+    res.render('forgot-password', { title: 'Olvidé mi contraseña' });
+});
+
+router.get('/reset-password/:token', (req, res) => {
+    res.render('reset-password', { token: req.params.token });
+});
+
 router.use('/productos', isAuthenticated);
 router.use('/admin', isAuthenticated, isAdmin);
 router.get('/login', (req, res) => {

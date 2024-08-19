@@ -1,11 +1,12 @@
 import userService from '../services/userService.js';
 import passport from 'passport';
 import logger from '../utils/logger.js'
+import { sendPasswordResetEmail, resetPassword } from '../utils/passwordRecovery.js';
 
 class AuthController {
   async register(req, res, next) {
     logger.info('Register function triggered with data:', req.body);
-  
+
     passport.authenticate('local-register', (err, user, info) => {
       if (err) {
         logger.error('Error during authentication:', err);
@@ -15,7 +16,7 @@ class AuthController {
         logger.warning('Authentication failed, no user found:', info.message);
         return res.status(400).json({ message: info.message });
       }
-  
+
       req.login(user, (err) => {
         if (err) {
           logger.error('Error during login:', err);
@@ -26,7 +27,7 @@ class AuthController {
       });
     })(req, res, next);
   }
-  
+
   async completeRegistration(req, res) {
     const { name, email } = req.body;
     if (!req.user) {
@@ -87,5 +88,38 @@ class AuthController {
   }
 
 }
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const previewURL = await sendPasswordResetEmail(email);
+    res.json({
+      message: 'Se ha enviado un correo con instrucciones para restablecer la contraseña.',
+      previewURL
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+export const resetPasswordGet = async (req, res) => {
+  const { token } = req.params;
+  res.render('reset-password', { token });
+};
+
+export const resetPasswordPost = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    console.log('Datos recibidos en resetPasswordPost:', { token, newPassword: newPassword ? '[REDACTED]' : undefined });
+    if (!token || !newPassword) {
+      return res.status(400).json({ error: 'Token y nueva contraseña son requeridos' });
+    }
+    await resetPassword(token, newPassword);
+    res.json({ message: 'Contraseña restablecida con éxito' });
+  } catch (error) {
+    console.error('Error en resetPasswordPost:', error);
+    res.status(400).json({ error: error.message });
+  }
+};
 
 export default new AuthController();

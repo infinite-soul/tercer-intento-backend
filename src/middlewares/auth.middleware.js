@@ -21,9 +21,17 @@ export const isAdmin = (req, res, next) => {
 };
 
 export const isUser = (req, res, next) => {
-    if (req.user && req.user.role === 'usuario') {
+    if (req.user && (req.user.role === 'usuario' || req.user.role === 'premium')) {
         return next();
     } else {
         res.status(403).json({ error: 'Acceso denegado: Esta acción requiere ser usuario' });
+    }
+};
+
+export const isPremium = (req, res, next) => {
+    if (req.user && req.user.role === 'premium') {
+        return next();
+    } else {
+        res.status(403).json({ error: 'Acceso denegado: Esta acción requiere ser usuario premium' });
     }
 };

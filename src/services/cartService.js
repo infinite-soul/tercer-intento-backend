@@ -32,12 +32,18 @@ class CartService {
         }
     }
 
-    async addProductToCart(cartId, productId, quantity) {
+    async addProductToCart(cartId, productId, quantity, userEmail, userRole) {
         try {
-            return await cartDao.addProductToCart(cartId, productId, quantity);
-        } catch (err) {
-            console.error('Error en el servicio al agregar el producto al carrito:', err);
-            throw err;
+            const product = await productService.getProductById(productId);
+            if (!product) {
+                throw new Error('Producto no encontrado');
+            }
+            if (userRole === 'premium' && product.owner === userEmail) {
+                throw new Error('No puedes agregar tu propio producto al carrito');
+            }
+        } catch (error) {
+            logger.error('Error al agregar producto al carrito:', error);
+            throw error;
         }
     }
 
