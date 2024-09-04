@@ -75,3 +75,6 @@ Este es mi proyecto de github para Backend con C0derH0use, en mi tercera cursada
 }
 - Esto envia un correo, y manda en postman la url de preview
 - Allí sale la url para reestablecer contraseña, usarla
+
+## Documentación Swagger
+- Se abre en http://localhost:8080/api-docs/

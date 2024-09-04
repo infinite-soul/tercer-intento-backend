@@ -1,9 +1,25 @@
-// routes/loggerRoutes.js
 import express from 'express';
 import logger from '../utils/logger.js';
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Logger
+ *   description: Pruebas de logging
+ */
+
+/**
+ * @swagger
+ * /api/loggerTest:
+ *   get:
+ *     summary: Genera logs de prueba
+ *     tags: [Logger]
+ *     responses:
+ *       200:
+ *         description: Logs de prueba generados exitosamente
+ */
 router.get('/loggerTest', (req, res) => {
   logger.fatal('Esto es un log fatal');
   logger.error('Esto es un log de error');

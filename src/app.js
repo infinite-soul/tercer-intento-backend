@@ -25,6 +25,9 @@ import "dotenv/config";
 
 import logger from './utils/logger.js';
 
+import swaggerUi from 'swagger-ui-express';
+import specs from './swagger.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -70,6 +73,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/carts', cartRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/', viewsRoutes)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // app.use('/productos', isAuthenticated);
 // app.use('/admin', isAuthenticated, isAdmin);
