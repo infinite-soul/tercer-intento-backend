@@ -78,3 +78,4 @@ Este es mi proyecto de github para Backend con C0derH0use, en mi tercera cursada
 
 ## Documentación Swagger
 - Se abre en http://localhost:8080/api-docs/
+- Las autenticaciones cambiaron de estructura para seguir la de http://localhost:8080/api/auth/register tal como se ven en la documentación, y el resto de rutas respetan la documentación
