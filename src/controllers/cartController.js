@@ -1,14 +1,17 @@
 import CartService from '../services/cartService.js';
-
-const cartService = new CartService();
+import logger from '../utils/logger.js';
 
 class CartController {
+    constructor() {
+        this.cartService = new CartService();
+    }
+
     async createCart(req, res) {
         try {
-            const newCart = await cartService.createCart();
+            const newCart = await this.cartService.createCart();
             res.status(201).json(newCart);
         } catch (err) {
-            console.error('Error en el controlador al crear el carrito:', err);
+            logger.error('Error en el controlador al crear el carrito:', err);
             res.status(500).json({ error: 'Error al crear el carrito' });
         }
     }
@@ -26,13 +29,13 @@ class CartController {
     async getCartById(req, res) {
         const cartId = req.params.cid;
         try {
-            const cart = await cartService.getCartById(cartId);
+            const cart = await this.cartService.getCartById(cartId);
             if (!cart) {
                 return res.status(404).json({ error: 'Carrito no encontrado' });
             }
             res.json(cart);
         } catch (err) {
-            console.error('Error en el controlador al obtener el carrito:', err);
+            logger.error('Error en el controlador al obtener el carrito:', err);
             res.status(500).json({ error: 'Error al obtener el carrito' });
         }
     }
@@ -41,14 +44,11 @@ class CartController {
         const { cid, pid } = req.params;
         const { quantity } = req.body;
         try {
-            const updatedCart = await cartService.addProductToCart(cid, pid, quantity, req.user.email, req.user.role);
-            if (!updatedCart) {
-                return res.status(404).json({ error: 'Carrito o producto no encontrado' });
-            }
+            const updatedCart = await this.cartService.addProductToCart(cid, pid, quantity, req.user.email, req.user.role);
             res.json(updatedCart);
         } catch (err) {
-            console.error('Error en el controlador al agregar el producto al carrito:', err);
-            res.status(500).json({ error: 'Error al agregar el producto al carrito' });
+            logger.error('Error en el controlador al agregar el producto al carrito:', err);
+            res.status(500).json({ error: 'Error al agregar el producto al carrito', details: err.message });
         }
     }
 

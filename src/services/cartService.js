@@ -7,11 +7,15 @@ const productService = new ProductService();
 const cartDao = new CartDao();
 
 class CartService {
+    constructor() {
+        this.cartDao = new CartDao();
+    }
+
     async createCart() {
         try {
-            return await cartDao.createCart();
+            return await this.cartDao.createCart();
         } catch (err) {
-            console.error('Error en el servicio al crear el carrito:', err);
+            logger.error('Error en el servicio al crear el carrito:', err);
             throw err;
         }
     }
@@ -27,9 +31,9 @@ class CartService {
 
     async getCartById(cartId) {
         try {
-            return await cartDao.getCartById(cartId);
+            return await this.cartDao.getCartById(cartId);
         } catch (err) {
-            console.error('Error en el servicio al obtener el carrito:', err);
+            logger.error('Error en el servicio al obtener el carrito:', err);
             throw err;
         }
     }

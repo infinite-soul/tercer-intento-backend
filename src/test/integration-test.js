@@ -163,7 +163,7 @@ describe('E-commerce Tests', function() {
         .send({ quantity: 2 })
         .set('Cookie', `token=${userToken}`);
     
-      expect(cartResponse.status).to.equal(200);
+      expect(cartResponse.status, `Respuesta inesperada: ${JSON.stringify(cartResponse.body)}`).to.equal(200);
       expect(cartResponse.body.products).to.be.an('array');
       expect(cartResponse.body.products[0].product.toString()).to.equal(productId);
       expect(cartResponse.body.products[0].quantity).to.equal(2);
