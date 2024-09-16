@@ -5,18 +5,19 @@ const adminEmail = process.env.ADMIN_EMAIL;
 const adminPassword = process.env.ADMIN_PASSWORD;
 
 export const isAuthenticated = (req, res, next) => {
+    console.log('Is authenticated middleware. User:', req.user);
     if (req.isAuthenticated()) {
         return next();
     } else {
-        res.redirect('/login');
+        return res.redirect('/login');
     }
 };
 
 export const isAdmin = (req, res, next) => {
-    if (req.user && (req.user.email === adminEmail || req.user.role === 'admin')) {
+    if (req.user && (req.user.email === process.env.ADMIN_EMAIL || req.user.role === 'admin' || req.user.role === 'usuario' || req.user.role === 'premium')) {
         return next();
     } else {
-        res.status(403).json({ error: 'Acceso denegado: No eres administrador' });
+        res.status(403).json({ error: 'Acceso denegado: No tienes permisos suficientes' });
     }
 };
 

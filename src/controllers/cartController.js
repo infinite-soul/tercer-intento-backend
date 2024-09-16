@@ -1,5 +1,3 @@
-// src/controllers/cartController.js
-
 import CartService from '../services/cartService.js';
 
 const cartService = new CartService();
@@ -43,7 +41,7 @@ class CartController {
         const { cid, pid } = req.params;
         const { quantity } = req.body;
         try {
-            const updatedCart = await cartService.addProductToCart(cid, pid, quantity);
+            const updatedCart = await cartService.addProductToCart(cid, pid, quantity, req.user.email, req.user.role);
             if (!updatedCart) {
                 return res.status(404).json({ error: 'Carrito o producto no encontrado' });
             }

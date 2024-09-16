@@ -12,7 +12,7 @@ class ProductService {
                 page: parseInt(page),
                 sort: sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : undefined,
             };
-    
+
             const filter = {};
             if (query) {
                 filter.$or = [
@@ -21,13 +21,13 @@ class ProductService {
                     { available: query === 'true' },
                 ];
             }
-    
+
             if (category) {
                 filter.category = category;
             }
-    
+
             const result = await productDao.getProducts(filter, options);
-    
+
             return {
                 status: 'success',
                 payload: result.docs,

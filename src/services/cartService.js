@@ -1,6 +1,8 @@
-// src/services/cartService.js
-
+import logger from '../utils/logger.js';
 import CartDao from '../dao/cartDao.js';
+import ProductService from './productService.js';
+
+const productService = new ProductService();
 
 const cartDao = new CartDao();
 
@@ -41,6 +43,7 @@ class CartService {
             if (userRole === 'premium' && product.owner === userEmail) {
                 throw new Error('No puedes agregar tu propio producto al carrito');
             }
+            return await this.cartDao.addProductToCart(cartId, productId, quantity);
         } catch (error) {
             logger.error('Error al agregar producto al carrito:', error);
             throw error;

@@ -34,10 +34,25 @@ const __dirname = path.dirname(__filename);
 const messageManager = new MessageManager();
 const productService = new ProductService();
 
-const DB_URL = process.env.DB_URL;
+// const DB_URL = process.env.DB_URL;
+const DB_URL = process.env.DB_URL_QA;
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+// Función de conexión a la base de datos
+export const connectDB = async (url = DB_URL) => {
+  try {
+    await mongoose.connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    logger.info('Conectado a MongoDB');
+  } catch (err) {
+    logger.error('Error al conectar a MongoDB:', err);
+    throw err;
+  }
+};
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -62,8 +77,6 @@ app.use((req, res, next) => {
     logger.info(`${req.method} ${req.url}`);
     next();
   });
-
-
 
 // app.use('/api', router);
 
@@ -168,7 +181,7 @@ io.on('connection', async (socket) => {
     });
 });
 
-mongoose.connect(process.env.DB_URL, {
+mongoose.connect(DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -179,3 +192,5 @@ app.use((err, req, res, next) => {
     logger.error(err.stack);
     res.status(500).json({ error: 'Error en el servidor' });
   });
+
+export default app;

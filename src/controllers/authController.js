@@ -76,10 +76,9 @@ class AuthController {
   async getProfile(req, res) {
     const user = req.user || req.session.user;
     if (user) {
-      res.json({
+      res.status(200).json({
         name: user.name,
         email: user.email,
-        githubId: user.githubId,
         role: user.role
       });
     } else {
