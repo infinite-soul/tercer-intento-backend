@@ -21,6 +21,15 @@ class ProductDao {
         }
     }
 
+    async getProductByCode(code) {
+        try {
+            return await ProductModel.findOne({ code });
+        } catch (err) {
+            console.error('Error en DAO al obtener el producto por código:', err);
+            throw err;
+        }
+    }
+
     async addProduct(productData) {
         try {
             const product = new ProductModel(productData);
