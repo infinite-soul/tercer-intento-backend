@@ -27,6 +27,7 @@ import logger from './utils/logger.js';
 
 import swaggerUi from 'swagger-ui-express';
 import specs from './swagger.js';
+import userRoutes from './routes/userRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,8 +35,10 @@ const __dirname = path.dirname(__filename);
 const messageManager = new MessageManager();
 const productService = new ProductService();
 
-// const DB_URL = process.env.DB_URL;
-const DB_URL = process.env.DB_URL_QA;
+// Acá se comenta o descomenta dependiendo de si se va a usar la base de datos de QA o de PDN
+
+const DB_URL = process.env.DB_URL;
+// const DB_URL = process.env.DB_URL_QA;
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -53,6 +56,8 @@ export const connectDB = async (url = DB_URL) => {
     throw err;
   }
 };
+
+app.use('/api/users', userRoutes);
 
 app.use(session({
     secret: process.env.SESSION_SECRET,

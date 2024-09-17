@@ -163,6 +163,30 @@ router.get('/users/profile-github', passport.authenticate('github', { failureRed
 
 /**
  * @swagger
+ * /api/auth/premium/{uid}:
+ *   put:
+ *     summary: Actualiza el rol de un usuario a premium o viceversa
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: path
+ *         name: uid
+ *         required: true
+ *         schema:
+ *           type: string
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Usuario actualizado exitosamente
+ *       401:
+ *         description: No autorizado
+ *       404:
+ *         description: Usuario no encontrado
+ */
+router.put('/premium/:uid', isAuthenticated, isAdmin, authController.updateUserToPremium);
+
+/**
+ * @swagger
  * /api/auth/forgot-password:
  *   post:
  *     summary: Solicita un restablecimiento de contraseña
