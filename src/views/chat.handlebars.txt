@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat en Tiempo Real</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        #messages {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #messages li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #message-form {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        #message-form input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #message-form button {
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat en Tiempo Real</h1>
+    <ul id="messages"></ul>
+    <form id="message-form">
+        <input type="text" id="user" placeholder="Tu nombre" required>
+        <input type="text" id="message" placeholder="Escribe un mensaje" required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        const socket = io();
+        const messageForm = document.getElementById('message-form');
+        const messagesList = document.getElementById('messages');
+
+        messageForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('user').value;
+            const message = document.getElementById('message').value;
+            socket.emit('chatMessage', { user, message });
+            document.getElementById('message').value = '';
+        });
+
+        socket.on('loadMessages', (messages) => {
+            messagesList.innerHTML = '';
+            messages.forEach(message => {
+                addMessageToList(message);
+            });
+        });
+
+        socket.on('newMessage', (message) => {
+            addMessageToList(message);
+        });
+
+        function addMessageToList(message) {
+            const li = document.createElement('li');
+            li.textContent = `${message.user}: ${message.message}`;
+            messagesList.appendChild(li);
+        }
+    </script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Aplicación con Handlebars</title>
+    <title>Ecommerce</title>
 </head>
 <body>
     {{{body}}}

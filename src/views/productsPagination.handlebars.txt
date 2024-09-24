@@ -1,0 +1,69 @@
+
+<head>
+    <meta charset="UTF-8">
+    <title>Productos</title>
+</head>
+<body>
+    <h1>Bienvenido, {{ user.name }}</h1>
+    <p>Correo electrónico: {{ user.email }}</p>
+    <p>Rol: {{ user.role }}</p>
+    <form action="/api/logout" method="post">
+        <button type="submit">Cerrar sesión</button>
+    </form>
+
+<ul>
+  {{#each carts}}
+    <li>
+      <h2>Carrito ID: {{this._id}}</h2>
+      <!-- Aquí puedes agregar más detalles sobre cada carrito -->
+    </li>
+  {{/each}}
+</ul>
+<h2>Lista de Productos</h2>
+
+<div>
+  {{#if hasPrevPage}}
+    <a href="{{prevLink}}">Página Anterior</a>
+  {{/if}}
+  Página {{page}} de {{totalPages}}
+  {{#if hasNextPage}}
+    <a href="{{nextLink}}">Página Siguiente</a>
+  {{/if}}
+</div>
+
+<ul>
+  {{#each products}}
+    <li>
+      <h3>{{this.title}}</h3>
+      <p>Precio: ${{this.price}}</p>
+      <form action="/add-to-cart" method="post">
+        <input type="hidden" name="productId" value="{{this._id}}">
+        <select class="cartSelect" name="cartId">
+          <!-- Los carritos se llenarán aquí con AJAX -->
+        </select>
+        <button type="submit">Agregar al carrito</button>
+      </form>
+    </li>
+  {{/each}}
+</ul>
+
+<script>
+window.onload = function() {
+  fetch('/api/carts')
+    .then(response => response.json())
+    .then(carts => {
+      const selects = document.querySelectorAll('.cartSelect');
+      selects.forEach(select => {
+        carts.forEach(cart => {
+          const option = document.createElement('option');
+          option.value = cart._id;
+          option.text = cart._id;
+          select.appendChild(option);
+        });
+      });
+    })
+    .catch(error => console.error('Error:', error));
+};
+</script>
+
+</body>

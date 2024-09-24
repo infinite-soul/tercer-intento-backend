@@ -3,30 +3,34 @@ import passport from 'passport';
 import logger from '../utils/logger.js'
 import { sendPasswordResetEmail, resetPassword } from '../utils/passwordRecovery.js';
 import { UserModel } from '../dao/MongoDB/User.model.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 class AuthController {
-  async register(req, res, next) {
-    logger.info('Register function triggered with data:', req.body);
-
-    passport.authenticate('local-register', (err, user, info) => {
-      if (err) {
-        logger.error('Error during authentication:', err);
-        return res.status(500).json({ message: 'Error interno del servidor' });
-      }
-      if (!user) {
-        logger.warning('Authentication failed, no user found:', info.message);
-        return res.status(400).json({ message: info.message });
+  async register(req, res) {
+    try {
+      const { email, password, name } = req.body;
+      
+      const existingUser = await UserModel.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ message: 'El correo electrónico ya está registrado' });
       }
 
-      req.login(user, (err) => {
-        if (err) {
-          logger.error('Error during login:', err);
-          return res.status(500).json({ message: 'Error al iniciar sesión' });
-        }
-        logger.info('User successfully registered and logged in:', user);
-        return res.status(201).json({ message: 'Registro exitoso', userId: user._id });
+      const hashedPassword = await bcrypt.hash(password, 10);
+      
+      const newUser = new UserModel({
+        email,
+        password: hashedPassword,
+        name
       });
-    })(req, res, next);
+
+      await newUser.save();
+
+      res.status(201).json({ message: 'Usuario registrado exitosamente' });
+    } catch (error) {
+      logger.error('Error in register:', error);
+      res.status(500).json({ message: 'Error en el servidor' });
+    }
   }
 
   async completeRegistration(req, res) {
@@ -49,45 +53,102 @@ class AuthController {
     try {
       const { uid } = req.params;
       const user = await UserModel.findById(uid);
-
+  
       if (!user) {
         return res.status(404).json({ error: 'Usuario no encontrado' });
       }
-
-      user.role = user.role === 'premium' ? 'usuario' : 'premium';
+  
+      if (user.role === 'premium') {
+        user.role = 'usuario';
+      } else if (user.role === 'usuario') {
+        const requiredDocs = ['identificacion', 'comprobante_domicilio', 'comprobante_estado_cuenta'];
+        const userDocs = user.documents.map(doc => doc.name);
+        
+        const missingDocs = requiredDocs.filter(doc => !userDocs.includes(doc));
+        
+        if (missingDocs.length > 0) {
+          return res.status(400).json({ error: `Faltan los siguientes documentos: ${missingDocs.join(', ')}` });
+        }
+        
+        user.role = 'premium';
+      } else {
+        return res.status(400).json({ error: 'Operación no permitida para este rol de usuario' });
+      }
+  
       await user.save();
-
-      logger.info(`Usuario ${uid} actualizado a rol: ${user.role}`);
+  
       res.json({ message: `Usuario actualizado a ${user.role}`, user });
     } catch (error) {
-      logger.error('Error al actualizar usuario a premium:', error);
+      console.error('Error al actualizar usuario a premium:', error);
       res.status(500).json({ error: 'Error al actualizar usuario' });
     }
   }
 
-  async login(req, res, next) {
-    passport.authenticate('local', async (err, user, info) => {
-      if (err) {
-        logger.error('Error en autenticación:', err);
-        return next(err);
-      }
+
+  async login(req, res) {
+    try {
+      const { email, password } = req.body;
+      const user = await UserModel.findOne({ email });
+
       if (!user) {
-        logger.warning('Usuario no autenticado:', info.message);
-        return res.status(400).json({ message: info.message });
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ message: 'Invalid credentials' });
       }
 
       await UserModel.findByIdAndUpdate(user._id, { last_connection: new Date() });
 
-      logger.info('Usuario autenticado exitosamente');
-      req.login(user, (err) => {
-        if (err) {
-          logger.error('Error al iniciar sesión:', err);
-          return next(err);
+      const token = jwt.sign(
+        { id: user._id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+
+      res.status(200).json({ message: 'Inicio de sesión exitoso', token });
+    } catch (error) {
+      logger.error('Error in login:', error);
+      res.status(500).json({ message: 'Error en el servidor' });
+    }
+  }
+
+  async uploadDocuments(req, res) {
+    try {
+      const { uid } = req.params;
+      const user = await UserModel.findById(uid);
+  
+      if (!user) {
+        return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+  
+      if (req.files) {
+        for (let fileType in req.files) {
+          req.files[fileType].forEach(file => {
+            // Buscar si ya existe un documento con este nombre
+            const existingDocIndex = user.documents.findIndex(doc => doc.name === fileType);
+            
+            if (existingDocIndex !== -1) {
+              // Si existe, actualizar la referencia
+              user.documents[existingDocIndex].reference = file.path;
+            } else {
+              // Si no existe, agregar nuevo documento
+              user.documents.push({
+                name: fileType,
+                reference: file.path
+              });
+            }
+          });
         }
-        logger.info('Sesión iniciada, redirigiendo');
-        return res.status(200).json({ message: 'Inicio de sesión exitoso' });
-      });
-    })(req, res, next);
+      }
+  
+      await user.save();
+      res.json({ message: 'Documentos subidos con éxito', user });
+    } catch (error) {
+      console.error('Error al subir documentos:', error);
+      res.status(500).json({ error: 'Error al subir documentos', details: error.message });
+    }
   }
 
   async logout(req, res) {

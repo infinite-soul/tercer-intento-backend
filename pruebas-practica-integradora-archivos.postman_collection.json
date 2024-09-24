@@ -1,0 +1,255 @@
+{
+	"info": {
+		"_postman_id": "027b09a5-4f24-4deb-bfbb-b38289886e28",
+		"name": "pruebas-practica-integradora-archivos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19857448"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/api/auth/register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"password123\",\r\n    \"name\": \"Test User\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/api/auth/register' \\\r\n--header 'Content-Type: application/json' \\\r\n--data-raw '{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"password123\",\r\n    \"name\": \"Test User\"\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/auth/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/api/auth/login' \\\r\n--header 'Content-Type: application/json' \\\r\n--data-raw '{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"password123\"\r\n}'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/users/66f34467fff50ba7f53cf8f9/documents",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZjM0NDY3ZmZmNTBiYTdmNTNjZjhmOSIsImVtYWlsIjoidGVzdEBleGFtcGxlZS5jb20iLCJpYXQiOjE3MjcyMTg3OTgsImV4cCI6MTcyNzIyMjM5OH0.3SJLBTPH3JO8WWBvTjxVI0O3My7CIgJgI3SC28nkXq0"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "profile",
+							"type": "file",
+							"src": "/C:/coderhouse/tercer-intento-backend/uploads/documents/profile.jpg"
+						},
+						{
+							"key": "identificacion",
+							"type": "file",
+							"src": "/C:/coderhouse/tercer-intento-backend/uploads/documents/identification.jpg"
+						},
+						{
+							"key": "comprobante_domicilio",
+							"type": "file",
+							"src": "/C:/coderhouse/tercer-intento-backend/uploads/documents/proof_of_address.jpg"
+						},
+						{
+							"key": "comprobante_estado_cuenta",
+							"type": "file",
+							"src": "/C:/coderhouse/tercer-intento-backend/uploads/documents/bank_statement.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/users/66f34467fff50ba7f53cf8f9/documents",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"66f34467fff50ba7f53cf8f9",
+						"documents"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/api/users/66f34467fff50ba7f53cf8f9/documents' \\\r\n--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZjM0NDY3ZmZmNTBiYTdmNTNjZjhmOSIsImVtYWlsIjoidGVzdEBleGFtcGxlZS5jb20iLCJpYXQiOjE3MjcyMTg3OTgsImV4cCI6MTcyNzIyMjM5OH0.3SJLBTPH3JO8WWBvTjxVI0O3My7CIgJgI3SC28nkXq0' \\\r\n--form 'profile=@\"/C:/coderhouse/tercer-intento-backend/uploads/documents/profile.jpg\"' \\\r\n--form 'identificacion=@\"/C:/coderhouse/tercer-intento-backend/uploads/documents/identification.jpg\"' \\\r\n--form 'comprobante_domicilio=@\"/C:/coderhouse/tercer-intento-backend/uploads/documents/proof_of_address.jpg\"' \\\r\n--form 'comprobante_estado_cuenta=@\"/C:/coderhouse/tercer-intento-backend/uploads/documents/bank_statement.jpg\"'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/users/premium/:uid",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer <token_obtenido_en_login>"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/users/premium/:uid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"premium",
+						":uid"
+					],
+					"variable": [
+						{
+							"key": "uid"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl --location --request PUT 'http://localhost:8080/api/users/premium/:uid' \\\r\n--header 'Authorization: Bearer <token_obtenido_en_login>'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/users/premium/:uid",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer <token_del_nuevo_usuario>"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/users/premium/:uid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"premium",
+						":uid"
+					],
+					"variable": [
+						{
+							"key": "uid"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl --location --request PUT 'http://localhost:8080/api/users/premium/:uid' \\\r\n--header 'Authorization: Bearer <token_del_nuevo_usuario>'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/auth/logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer <token_obtenido_en_login>"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/auth/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"logout"
+					]
+				},
+				"description": "Generated from cURL: curl --location --request POST 'http://localhost:8080/api/auth/logout' \\\r\n--header 'Authorization: Bearer <token_obtenido_en_login>'"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/api/auth/profile",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer <token_obtenido_en_login>"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/auth/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"profile"
+					]
+				},
+				"description": "Generated from cURL: curl --location 'http://localhost:8080/api/auth/profile' \\\r\n--header 'Authorization: Bearer <token_obtenido_en_login>'"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,29 @@
+<h1>Perfil de usuario</h1>
+<p>Nombre: {{user.name}}</p>
+<p>Correo electrónico: {{user.email}}</p>
+<p>Rol: {{user.role}}</p>
+<button id="logout-btn">Cerrar sesión</button>
+
+<script>
+  const logoutBtn = document.getElementById('logout-btn');
+  logoutBtn.addEventListener('click', async () => {
+    try {
+      const response = await fetch('/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        window.location.href = '/login';
+      } else {
+        const error = await response.json();
+        alert(error.error);
+      }
+    } catch (err) {
+      console.error('Error al cerrar sesión:', err);
+      alert('Error en el servidor');
+    }
+  });
+</script>
