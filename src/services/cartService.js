@@ -1,15 +1,21 @@
-// src/services/cartService.js
-
+import logger from '../utils/logger.js';
 import CartDao from '../dao/cartDao.js';
+import ProductService from './productService.js';
+
+const productService = new ProductService();
 
 const cartDao = new CartDao();
 
 class CartService {
+    constructor() {
+        this.cartDao = new CartDao();
+    }
+
     async createCart() {
         try {
-            return await cartDao.createCart();
+            return await this.cartDao.createCart();
         } catch (err) {
-            console.error('Error en el servicio al crear el carrito:', err);
+            logger.error('Error en el servicio al crear el carrito:', err);
             throw err;
         }
     }
@@ -25,9 +31,9 @@ class CartService {
 
     async getCartById(cartId) {
         try {
-            return await cartDao.getCartById(cartId);
+            return await this.cartDao.getCartById(cartId);
         } catch (err) {
-            console.error('Error en el servicio al obtener el carrito:', err);
+            logger.error('Error en el servicio al obtener el carrito:', err);
             throw err;
         }
     }
@@ -41,6 +47,7 @@ class CartService {
             if (userRole === 'premium' && product.owner === userEmail) {
                 throw new Error('No puedes agregar tu propio producto al carrito');
             }
+            return await this.cartDao.addProductToCart(cartId, productId, quantity);
         } catch (error) {
             logger.error('Error al agregar producto al carrito:', error);
             throw error;

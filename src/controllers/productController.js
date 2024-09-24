@@ -1,5 +1,3 @@
-// src/controllers/productController.js
-
 import ProductService from '../services/productService.js';
 import { createError, CustomError } from '../utils/errors.js';
 import logger from '../utils/logger.js';
@@ -33,6 +31,7 @@ class ProductController {
             if (!product) {
                 throw createError('PRODUCT_NOT_FOUND');
             }
+            res.json(product);
             res.render('productDetails', { product });
         } catch (err) {
             logger.error('Error en el controlador al obtener el producto:', err);

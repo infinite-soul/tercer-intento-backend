@@ -26,7 +26,7 @@ const cartController = new CartController();
  *       401:
  *         description: No autorizado
  */
-router.post('/', isAuthenticated, cartController.createCart);
+router.post('/', isAuthenticated, cartController.createCart.bind(cartController));
 
 /**
  * @swagger
@@ -64,7 +64,7 @@ router.get('/', cartController.getCarts);
  *       404:
  *         description: Carrito no encontrado
  */
-router.get('/:cid', isAuthenticated, cartController.getCartById);
+router.get('/:cid', isAuthenticated, cartController.getCartById.bind(cartController));
 
 /**
  * @swagger
@@ -104,7 +104,7 @@ router.get('/:cid', isAuthenticated, cartController.getCartById);
  *       404:
  *         description: Carrito o producto no encontrado
  */
-router.post('/:cid/product/:pid', isAuthenticated, cartController.addProductToCart);
+router.post('/:cid/product/:pid', isAuthenticated, cartController.addProductToCart.bind(cartController));
 
 /**
  * @swagger

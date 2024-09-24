@@ -2,6 +2,7 @@ import userService from '../services/userService.js';
 import passport from 'passport';
 import logger from '../utils/logger.js'
 import { sendPasswordResetEmail, resetPassword } from '../utils/passwordRecovery.js';
+import { UserModel } from '../dao/MongoDB/User.model.js';
 
 class AuthController {
   async register(req, res, next) {
@@ -44,10 +45,28 @@ class AuthController {
     }
   }
 
+  async updateUserToPremium(req, res) {
+    try {
+      const { uid } = req.params;
+      const user = await UserModel.findById(uid);
+
+      if (!user) {
+        return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+
+      user.role = user.role === 'premium' ? 'usuario' : 'premium';
+      await user.save();
+
+      logger.info(`Usuario ${uid} actualizado a rol: ${user.role}`);
+      res.json({ message: `Usuario actualizado a ${user.role}`, user });
+    } catch (error) {
+      logger.error('Error al actualizar usuario a premium:', error);
+      res.status(500).json({ error: 'Error al actualizar usuario' });
+    }
+  }
+
   async login(req, res, next) {
-    console.log('Intento de inicio de sesión', req.body);
-    passport.authenticate('local', (err, user, info) => {
-      console.log('Resultado de autenticación:', { err, user, info });
+    passport.authenticate('local', async (err, user, info) => {
       if (err) {
         logger.error('Error en autenticación:', err);
         return next(err);
@@ -56,6 +75,9 @@ class AuthController {
         logger.warning('Usuario no autenticado:', info.message);
         return res.status(400).json({ message: info.message });
       }
+
+      await UserModel.findByIdAndUpdate(user._id, { last_connection: new Date() });
+
       logger.info('Usuario autenticado exitosamente');
       req.login(user, (err) => {
         if (err) {
@@ -68,7 +90,10 @@ class AuthController {
     })(req, res, next);
   }
 
-  logout(req, res) {
+  async logout(req, res) {
+    if (req.user) {
+      await UserModel.findByIdAndUpdate(req.user._id, { last_connection: new Date() });
+    }
     req.session.destroy();
     res.status(200).json({ message: 'Sesión cerrada correctamente' });
   }
@@ -76,10 +101,9 @@ class AuthController {
   async getProfile(req, res) {
     const user = req.user || req.session.user;
     if (user) {
-      res.json({
+      res.status(200).json({
         name: user.name,
         email: user.email,
-        githubId: user.githubId,
         role: user.role
       });
     } else {
